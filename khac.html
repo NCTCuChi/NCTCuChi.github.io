@@ -1,120 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-  <title>Khác</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+    <title>Khác</title>
+<style> @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@500;600;700&display=swap');
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+:root{
+    --main-color : #1F4590;
+    --second-color : #FFA451;
+    --body-color : #D0FCFF;
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
-  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="popup.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    --main-font: 'Open Sans', sans-serif;
+    --heading-font : 'Raleway', sans-serif;
+}
 
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+body{
+    background-color: var(--body-color);
+    font-family: var(--main-font);
+}
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+section{
+    margin-top:-5px;
+}
+
+.container{
+    max-width: 1500px;
+}
+
+/* jnc service starts */
+.service .service-wrapper{
+    margin: auto;
+}
+.service-wrapper .row1{
+    text-align: center;
+}
+.service-wrapper .label-service{
+    font-size: 20px;
+    font-family: var(--heading-font);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--second-color);
+}
+.service-wrapper .heading-service{
+    font-size: 40px;
+    font-family: var(--heading-font);
+    font-weight: 700;
+    color: #4a4a4a;
+    margin: 10px 0;
+}
+.service-wrapper .subheading-service{
+    font-size: 20px;
+   
+}
+.service-wrapper .row2{
+    margin-top: 10px;
+    background-color: var(--main-color);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.row2 .box-service{
+    position: relative;
+    max-width: 300px;
+    text-align: center;
+}
+.box-service i{
+    font-size: 2.5rem;
+    margin-top: 10px;
+}
+.box-service h3{
+    font-size: 20px;
+    margin-top: 5px;
+}
+.box-service .btn-jnc{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:#008e94;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+    transition: .4s ease-in-out;
+}
+.box-service:hover .btn-jnc{
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+    transition: .4s ease-in-out;
+}
+.btn-jnc a{
+    color: #fff;
+}
+/* jnc service ends */
+
+
+</style>
 </head>
-
 <body>
+    <section class="service">
+        <div class="container service-wrapper">
+            <div class="row2" data-aos="fade-up">
+                <div class="box-service">
+                    <i class='bx bx-book-open'></i>
+                    <h3>Trang chủ</h3>
 
-  <!-- ======= Mobile nav toggle button ======= -->
-  <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+                    <div class="btn-jnc">
+                        <a href="index.html">Trang Chủ</a>
+                    </div>
+                </div>
+                
+                <div class="box-service">
+                    <i class='bx bx-book-open'></i>
+                    <h3>Lịch khám sức khỏe</h3>
 
-  <!-- ======= Header ======= -->
-  <header id="header">
-    <div class="d-flex flex-column">
+                    <div class="btn-jnc">
+                        <a href="lichkham.html">Lịch khám NCT</a>
+                    </div>
+                </div>
+                <div class="box-service">
+                    <i class='bx bx-book-open'></i>
+                    <h3>Đổi số thành chữ</h3>
 
-      <div class="profile">
-        <img src="assets/img/nurliani.jpeg" alt="Ảnh đại diện" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index.html">Trung tâm Y tế huyện Củ Chi</a></h1>
-        <div class="social-links mt-3 text-center">
-          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                    <div class="btn-jnc">
+                       <a href="soal.html">Đổi số thành chữ</a>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <nav class="nav-menu">
-        <ul>
-          <li class="active"><a href="index.html"><i class="bx bx-home"></i> <span>Trang chủ</span></a></li>
-          <li><a href="lichkham.html"><i class="bx bx-book-content"></i> <span>Lịch khám sức khỏe</span></a></li>
-          <li><a href="phancong.html"><i class="bx bx-book-content"></i> <span>Danh sách phân công</span></a></li>
-          <li><a href="baocaonhanh.html"><i class="bx bx-book-content"></i>Báo cáo nhanh hàng ngày</a></li>
-          <li><a href="khac.html"><i class="bx bx-book-content"></i> Khác </a></li>
-        </ul>
-      </nav><!-- .nav-menu -->
-      <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+    </section>
+     <div class="content">
+      <iframe width="100%" height="600" src="https://www.youtube.com/embed/TpErnactGQI?si=w2Mmf__PMSoo0tQ-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
-  </header><!-- End Header -->
 
-  <main id="main">
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script> let menuOpen = document.querySelector('.menu-toggle');
+let menuWrapper = document.querySelector('.menu-wrapper');
 
-    <!-- ======= About Section ======= -->
-      <div class="container">
-        <div class="section-title">
-          <h2>BUKU KERJA 4</h2>
+menuOpen.addEventListener('click', function () {
+    menuOpen.classList.toggle('bx-x');
+    menuWrapper.classList.toggle('active')
+})
 
-            <button id="btn" class="button" style="font-style: initial;font-weight: bold;text-align:right;white;background-color:green;color: #fff;">ADD FILE</button>
 
-      <div id="form-con">
-      <form>
-      <span id="close-btn"style="font-size: 20px;color: yellow;margin-left: 40%;">Close (X)</span>
-      <iframe src="URL SCRIPT"style="width: 100%;height:510px;"scrolling="yes"></iframe>
-      </form>
-      <script src="effect.js"></script>
-  </div>
+var swiper = new Swiper(".mySwiper", {
+    grabCursor: true,
+    centeredSlides: false,
+    spaceBetween: 30,
+    slidesPerView: "auto",
+    coverflowEffect: {
+        rotate: 0,
+        stretch: 0,
+        depth: 0,
+        modifier: 1,
+        slideShadows: true,
+    },
+    navigation: {
+        nextEl: ".bxs-chevron-right-circle",
+        prevEl: ".bxs-chevron-left-circle",
+    },
+});
 
-  <div class="content">
-      <iframe src="VAR URL"style="width: 100%;height: 530px;"></iframe>
-    </div>
-  </div>
-</div>
-  </main><!-- End #main -->
-
- <!-- ======= Footer ======= -->
- <footer id="footer">
-  <div class="container">
-    <div class="copyright">
-      &copy; Phát triển bởi <strong><span>Anh Khoa</span></strong>
-    </div>
-    <div class="credits">
-      <a href="#">https://anhkhoacc.id.vn</a>
-    </div>
-  </div>
-</footer><!-- End Footer -->
-
-<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/jquery/jquery.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
-  <script src="assets/vendor/counterup/counterup.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/venobox/venobox.min.js"></script>
-  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+var swiper = new Swiper(".mySwiperTesti", {
+    pagination: {
+        el: ".swiper-pagination",
+    },
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+    },
+});</script>
+    <script>
+        AOS.init({
+            duration: 3000
+        });
+    </script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="css/main.js"></script>
 </body>
-
 </html>
