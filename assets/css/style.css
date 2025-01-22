@@ -111,18 +111,42 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
 }
 
+/* Mặc định: #main có margin-left khi menu hiển thị */
 #main {
-  margin-left: 300px;
+  margin-left: 300px; /* Đẩy nội dung sang bên phải khi menu hiển thị */
+  transition: margin-left 0.5s ease-in-out;
 }
 
+/* Khi menu bị ẩn, #main full màn hình */
+#header.hidden + #main {
+  margin-left: 0; /* Đặt margin-left về 0 khi menu ẩn */
+}
+
+/* Mặc định iframe có chiều cao và chiều rộng cố định khi menu hiển thị */
+#main iframe {
+  width: calc(100% - 300px); /* Tự động tính toán chiều rộng trừ kích thước menu */
+  height: 30px; /* Chiều cao mặc định */
+  transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
+}
+
+/* Khi menu bị ẩn, iframe full màn hình */
+#header.hidden + #main iframe {
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  height: 100vh; /* Chiều cao toàn màn hình */
+}
+
+
+/* Trạng thái trên màn hình nhỏ */
 @media (max-width: 1199px) {
   #header {
     left: -300px;
   }
+
   #main {
     margin-left: 0;
   }
 }
+
 
 /*--------------------------------------------------------------
 # Navigation Menu
@@ -166,6 +190,40 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-menu a:hover i, .nav-menu .active > a i, .nav-menu li:hover > a i {
   color: #149ddd;
+}
+/* Nút ẩn/hiện menu cho desktop */
+.desktop-nav-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: #149ddd;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+.desktop-nav-toggle:hover {
+  background: #37b3ed;
+}
+
+/* Ẩn menu khi có lớp .hidden */
+#header.hidden {
+  left: -300px;
+  transition: all 0.6s ease-in-out;
+  overflow: hidden;
+}
+
+/* Hiển thị nút ẩn/hiện chỉ trên desktop */
+@media (min-width: 1200px) {
+  .desktop-nav-toggle {
+    display: block;
+    
+  }
 }
 
 /* Mobile Navigation */
