@@ -1,7 +1,12 @@
 
 !(function($) {
+  
   "use strict";
-
+  document.querySelector('.desktop-nav-toggle').addEventListener('click', function () {
+    const header = document.getElementById('header');
+    header.classList.toggle('hidden');
+  });
+  
   // Hero typed
   if ($('.typed').length) {
     var typed_strings = $(".typed").data('typed-items');
