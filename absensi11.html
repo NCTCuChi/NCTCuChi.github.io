@@ -219,49 +219,49 @@
         }
 
         function initDataTable(data) {
-            const table = $('#hrTable').DataTable({
-                data: data,
-                columns: [
-                    { data: 'name' },
-                    { data: 'age' },
-                    { data: 'gender' },
-                    { 
-                        data: 'salary',
-                        render: salary => `<span class="text-success fw-bold">${new Intl.NumberFormat('vi-VN').format(salary/1000000)}tr</span>`
-                    },
-                    { 
-                        data: 'joinDate',
-                        render: date => date.toLocaleDateString('vi-VN')
-                    },
-                    { data: 'department' },
-                    { data: 'city' }
-                ],
-                dom: '<"row mb-3"<"col-md-4"l><"col-md-4"f><"col-md-4"B>>rtip',
-                buttons: [
-                    {
-                        extend: 'pdfHtml5',
-                        text: '📄 Xuất PDF',
-                        className: 'btn-danger',
-                        title: 'Báo cáo nhân sự',
-                        customize: function(doc) {
-                            doc.content.splice(0, 0, {
-                                text: 'Báo cáo Toàn diện Nhân sự',
-                                fontSize: 18,
-                                alignment: 'center',
-                                margin: [0, 0, 0, 20]
-                            });
-                            doc.styles.tableHeader.fontSize = 12;
-                            doc.defaultStyle.fontSize = 10;
-                        }
-                    }
-                ],
-                responsive: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json'
-                },
-                order: [[4, 'desc']]
-            });
-        }
+    const table = $('#hrTable').DataTable({
+        data: data,
+        columns: [
+            { data: 'name' },
+            { data: 'age' },
+            { data: 'gender' },
+            { 
+                data: 'salary',
+                render: salary => `<span class="text-success fw-bold">${new Intl.NumberFormat('vi-VN').format(salary/1000000)}tr</span>`
+            },
+            { 
+                data: 'joinDate',
+                render: date => date.toLocaleDateString('vi-VN')
+            },
+            { data: 'department' },
+            { data: 'city' }
+        ],
+        dom: '<"row mb-3"<"col-md-4"l><"col-md-4"f><"col-md-4"B>>rtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: '📄 Xuất PDF',
+                className: 'btn-danger',
+                title: 'Báo cáo nhân sự',
+                customize: function(doc) {
+                    doc.content.splice(0, 0, {
+                        text: 'Báo cáo Toàn diện Nhân sự',
+                        fontSize: 18,
+                        alignment: 'center',
+                        margin: [0, 0, 0, 20]
+                    });
+                    doc.styles.tableHeader.fontSize = 12;
+                    doc.defaultStyle.fontSize = 10;
+                }
+            }
+        ],
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json'
+        },
+        order: [[4, 'desc']]
+    });
+}
 
         function renderCharts(data) {
             // Biểu đồ Lương
