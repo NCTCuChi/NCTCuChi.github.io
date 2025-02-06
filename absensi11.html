@@ -363,59 +363,6 @@
                         lengthMenu: [5, 10, 20]
                     });
 
-                    const departments = {};
-                    const genders = { "Male": 0, "Female": 0 };
-                    const joinYears = {};
-                    const ageGroups = { "20-29": 0, "30-39": 0, "40-49": 0 };
-
-                    employees.forEach(emp => {
-                        departments[emp[5]] = (departments[emp[5]] || 0) + emp[3];
-                        genders[emp[2]]++;
-                        let year = new Date(emp[4]).getFullYear();
-                        joinYears[year] = (joinYears[year] || 0) + 1;
-                        let age = emp[1];
-                        if (age < 30) ageGroups["20-29"]++;
-                        else if (age < 40) ageGroups["30-39"]++;
-                        else ageGroups["40-49"]++;
-                    });
-
-                    new Chart(document.getElementById("salaryChart"), {
-                        type: "bar",
-                        data: {
-                            labels: Object.keys(departments),
-                            datasets: [{ label: "Lương Trung Bình", data: Object.values(departments), backgroundColor: "#007bff" }]
-                        },
-                        options: { responsive: true }
-                    });
-
-                    new Chart(document.getElementById("genderChart"), {
-                        type: "bar",
-                        data: {
-                            labels: Object.keys(genders),
-                            datasets: [{label: "Giới tính", data: Object.values(genders), backgroundColor: ["#ff6384", "#36a2eb"] }]
-                        },
-                        options: { responsive: true }
-                    });
-
-                    new Chart(document.getElementById("joiningChart"), {
-                        type: "line",
-                        data: {
-                            labels: Object.keys(joinYears),
-                            datasets: [{ label: "Số Nhân Viên", data: Object.values(joinYears), borderColor: "#28a745", fill: false }]
-                        },
-                        options: { responsive: true }
-                    });
-
-                    new Chart(document.getElementById("ageChart"), {
-                        type: "line",
-                        data: {
-                            labels: Object.keys(ageGroups),
-                            datasets: [{ label: "Độ tuổi", data: Object.values(ageGroups), backgroundColor: "#6f42c1" }]
-                        },
-                        options: { responsive: true }
-                    });
-                });
-        });
     </script>
    
 </body>
