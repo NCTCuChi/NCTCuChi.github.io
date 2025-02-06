@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+      <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khám sức khỏe người cao tuổi Củ Chi 2025</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Thống Kê</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .dashboard-title {
+            font-weight: 600;
+            text-align: center;
+            padding: 20px;
+            color: #333;
+        }
+        .info-card {
+            transition: 0.3s;
+            border-left: 5px solid #0d6efd;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+section{
+    margin-top:-5px;
+}
+
+.container{
+    max-width: 1500px;
+}
+
+/* jnc service starts */
+.service .service-wrapper{
+    margin: auto;
+}
+.service-wrapper .row1{
+    text-align: center;
+}
+.service-wrapper .label-service{
+    font-size: 20px;
+    font-family: var(--heading-font);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--second-color);
+}
+.service-wrapper .heading-service{
+    font-size: 40px;
+    font-family: var(--heading-font);
+    font-weight: 700;
+    color: #4a4a4a;
+    margin: 10px 0;
+}
+.service-wrapper .subheading-service{
+    font-size: 20px;
+   
+}
+.service-wrapper .row2{
+    margin-top: 10px;
+    background-color: var(--main-color);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.row2 .box-service{
+    position: relative;
+    max-width: 300px;
+    text-align: center;
+}
+.box-service i{
+    font-size: 2.5rem;
+    margin-top: 10px;
+}
+.box-service h3{
+    font-size: 20px;
+    margin-top: 5px;
+}
+.box-service .btn-jnc{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:#008e94;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+    transition: .4s ease-in-out;
+}
+.box-service:hover .btn-jnc{
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+    transition: .4s ease-in-out;
+}
+.btn-jnc a{
+    color: #fff;
+}
+    </style>
+</head>
+<body>
+ 
+
+<div class="container mt-5">
+
+    <h2 class="dashboard-title">Dashboard Thống Kê</h2>
+
+    <!-- THÔNG TIN TỔNG QUAN -->
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="info-card">
+                <h5>Tổng số NCT được KSK</h5>
+                <h3 class="text-primary fw-bold" id="totalNCT">0</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="info-card">
+                <h5>Trạm lớn nhất</h5>
+                <h4 id="largestStation" class="text-success fw-bold">Đang tính toán...</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="info-card">
+                <h5>Trạm nhỏ nhất</h5>
+                <h4 id="smallestStation" class="text-danger fw-bold">Đang tính toán...</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- BIỂU ĐỒ -->
+    <div class="row g-4 mt-4">
+        <div class="col-md-6">
+            <div class="chart-container">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-container">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- BẢNG DỮ LIỆU -->
+    <div class="table-container mt-5">
+        <h3 class="mb-3">Dữ liệu Thống Kê</h3>
+        <table id="dataTable" class="table table-hover table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>STT</th>
+                    <th>Trạm Y tế</th>
+                    <th>NCT được KSK</th>
+                    <th>Xét nghiệm</th>
+                    <th>Siêu Âm</th>
+                    <th>Số NCT nhập liệu</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("https://script.googleusercontent.com/macros/echo?user_content_key=eWD9KDnoFACahaW37G16bmFrCNKubuDcPz6Ws3H1sz6-Yl6RYnGTli7mYx6wbHMPy-0pg99qppOB_vj_TIs8PotaUaeNcOq9OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa87hqr123fmx248BvLJ7Hr7YIR2MrOF6pYTlLPL3tKV3DQtNRxv7PqP_tcfr-KtoyB3iShl8E-3bRu1f4xb2ilvc8wwECQEug_ekoa_Y_UXNtG9SgAd80OdDO9C39X8Jng&lib=MYisXarkTAGcJyijFr0C8MiooXnPnd0iI")
+            .then(response => response.json())
+            .then(data => {
+                const records = data.slice(1, -1);
+                let tableBody = document.querySelector("#dataTable tbody");
+                let totalNCT = 0, maxNCT = 0, minNCT = Infinity;
+                let largestStation = "", smallestStation = "";
+                let stationNames = [], nctCounts = [];
+
+                records.forEach(record => {
+                    let nct = parseInt(record[2]) || 0;
+                    totalNCT += nct;
+                    stationNames.push(record[1]);
+                    nctCounts.push(nct);
+
+                    if (nct > maxNCT) { maxNCT = nct; largestStation = record[1]; }
+                    if (nct < minNCT) { minNCT = nct; smallestStation = record[1]; }
+
+                    let row = `<tr>
+                        <td>${record[0]}</td>
+                        <td>${record[1]}</td>
+                        <td>${record[2]}</td>
+                        <td>${record[3]}</td>
+                        <td>${record[4]}</td>
+                        <td>${record[5]}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+			
+                document.getElementById("totalNCT").textContent = totalNCT;
+                document.getElementById("largestStation").textContent = largestStation;
+                document.getElementById("smallestStation").textContent = smallestStation;
+
+                new Chart(document.getElementById("barChart"), {
+                    type: 'bar',
+                    data: { labels: stationNames, datasets: [{ label: 'Số NCT', data: nctCounts, backgroundColor: '#007bff' }] },
+                    options: { animation: { duration: 1500, easing: 'easeOutBounce' } }
+                });
+new Chart(document.getElementById("lineChart"), {
+                    type: 'line',
+                    data: { labels: stationNames, datasets: [{ label: 'Số NCT', data: nctCounts, backgroundColor: '#007bff' }] },
+                    options: { animation: { duration: 1500, easing: 'easeOutBounce' } }
+                });
+            });
+    });
+</script>
+
+</body>
+</html>
