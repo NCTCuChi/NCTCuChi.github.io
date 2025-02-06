@@ -301,7 +301,7 @@
 
             // Biểu đồ Nhân khẩu học
             new Chart(document.getElementById('demographics'), {
-                type: 'pie',
+                type: 'bar',
                 data: {
                     labels: ['Nam', 'Nữ', 'Khác'],
                     datasets: [{
@@ -335,34 +335,6 @@
                 card.innerHTML = '<div class="alert alert-danger m-3">Không thể tải dữ liệu biểu đồ</div>';
             });
         }
-         
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("https://script.googleusercontent.com/macros/echo?user_content_key=yM1XR63UFeoMaNJItYJ0Sk_aEKkUdhmTWGFUDPIGWJZQsnKZZP1Z4JZWDVzGjeEpYq5wd6pab2ijhA9l2Xjo59TWFiw7NeIZOJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa8ER2BJ6BHIrvnA5XwukZ8ovolL8j1V9J25IxCktn80552Hlow2l337MSa1UhCkMo3k0Plm3nOKhhfi1U4G9DaMno0yshXGgVM3BI-dLAEELbuTgeJo7oVDQDDmPCF_Tzw&lib=MLAx3PPFhf3rlm25CDpMOL6VQSSnWPj7K")
-                .then(response => response.json())
-                .then(data => {
-                    const employees = data.slice(1);
-
-                    let tableBody = document.querySelector("#employeeTable tbody");
-                    employees.forEach(emp => {
-                        let row = `<tr>
-                            <td>${emp[0]}</td>
-                            <td>${emp[1]}</td>
-                            <td>${emp[2]}</td>
-                            <td>${emp[3]}</td>
-                            <td>${new Date(emp[4]).toLocaleDateString()}</td>
-                            <td>${emp[5]}</td>
-                            <td>${emp[6]}</td>
-                        </tr>`;
-                        tableBody.innerHTML += row;
-                    });
-
-                    $("#employeeTable").DataTable({
-                        dom: 'Bfrtip',
-                        buttons: ['copy', 'csv', 'excel', 'pdf'],
-                        pageLength: 5,
-                        lengthMenu: [5, 10, 20]
-                    });
-
     </script>
    
 </body>
