@@ -3,155 +3,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Nhân Sự</title>
+    <title>Báo cáo Nhân sự Thông minh</title>
+    
+    <!-- CSS Libraries -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --chart-gradient-1: linear-gradient(135deg, #007bff, #00ff88);
+            --chart-gradient-2: linear-gradient(135deg, #ff6384, #ff9f40);
+        }
+
         body {
             background-color: #f8f9fa;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
-        h2 {
-            color: #343a40;
-            margin-bottom: 30px;
+
+        .dashboard-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        canvas {
-            background-color: #ffffff;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
-        table.dataTable {
-            margin-top: 15px !important;
+
+        .dataTables_wrapper {
+            margin-top: 2rem !important;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa !important;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center fw-bold">Dashboard Nhân Sự</h2>
-
-        <div class="row g-4">
-            <div class="col-md-6">
-                <canvas id="salaryChart"></canvas>
-            </div>
-            <div class="col-md-6">
-                <canvas id="genderChart"></canvas>
-            </div>
-        </div>
-
-        <div class="row mt-4 g-4">
-            <div class="col-md-6">
-                <canvas id="joiningChart"></canvas>
-            </div>
-            <div class="col-md-6">
-                <canvas id="ageChart"></canvas>
-            </div>
-        </div>
-
-        <h3 class="mt-5">Danh sách Nhân viên</h3>
-        <table id="employeeTable" class="table table-hover table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>Tên</th>
-                    <th>Tuổi</th>
-                    <th>Giới tính</th>
-                    <th>Lương</th>
-                    <th>Ngày Gia Nhập</th>
-                    <th>Phòng Ban</th>
-                    <th>Thành Phố</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" style="position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(255,255,255,0.9); z-index: 9999; display: none;">
+        <div class="spinner-border text-primary" style="position: absolute; top: 50%; left: 50%;"></div>
     </div>
 
+    <div class="dashboard-header">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3">📊 Báo cáo Nhân sự Toàn diện</h1>
+            <div class="row g-3" id="summaryCards"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Charts Grid -->
+        <div class="row row-cols-1 row-cols-xl-2 g-4 mb-5">
+            <div class="col">
+                <div class="chart-card">
+                    <div class="p-3">
+                        <h5 class="fw-bold">📊 Biểu đồ Lương theo Phòng Ban</h5>
+                        <canvas id="salaryAnalysis"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col">
+                <div class="chart-card">
+                    <div class="p-3">
+                        <h5 class="fw-bold">👥 Phân bố Nhân sự</h5>
+                        <canvas id="demographics"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table Section -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-4 fw-bold">📋 Danh sách Nhân viên Chi tiết</h5>
+                <table id="hrTable" class="table table-hover w-100">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tên NV</th>
+                            <th>Tuổi</th>
+                            <th>Giới tính</th>
+                            <th>Lương (triệu VND)</th>
+                            <th>Ngày vào</th>
+                            <th>Phòng ban</th>
+                            <th>Thành phố</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("https://script.googleusercontent.com/macros/echo?user_content_key=yM1XR63UFeoMaNJItYJ0Sk_aEKkUdhmTWGFUDPIGWJZQsnKZZP1Z4JZWDVzGjeEpYq5wd6pab2ijhA9l2Xjo59TWFiw7NeIZOJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa8ER2BJ6BHIrvnA5XwukZ8ovolL8j1V9J25IxCktn80552Hlow2l337MSa1UhCkMo3k0Plm3nOKhhfi1U4G9DaMno0yshXGgVM3BI-dLAEELbuTgeJo7oVDQDDmPCF_Tzw&lib=MLAx3PPFhf3rlm25CDpMOL6VQSSnWPj7K")
-                .then(response => response.json())
-                .then(data => {
-                    const employees = data.slice(1);
-
-                    let tableBody = document.querySelector("#employeeTable tbody");
-                    employees.forEach(emp => {
-                        let row = `<tr>
-                            <td>${emp[0]}</td>
-                            <td>${emp[1]}</td>
-                            <td>${emp[2]}</td>
-                            <td>${emp[3]}</td>
-                            <td>${new Date(emp[4]).toLocaleDateString()}</td>
-                            <td>${emp[5]}</td>
-                            <td>${emp[6]}</td>
-                        </tr>`;
-                        tableBody.innerHTML += row;
-                    });
-
-                    $("#employeeTable").DataTable({
-                        dom: 'Bfrtip',
-                        buttons: ['copy', 'csv', 'excel', 'pdf'],
-                        pageLength: 5,
-                        lengthMenu: [5, 10, 20]
-                    });
-
-                    const departments = {};
-                    const genders = { "Male": 0, "Female": 0 };
-                    const joinYears = {};
-                    const ageGroups = { "20-29": 0, "30-39": 0, "40-49": 0 };
-
-                    employees.forEach(emp => {
-                        departments[emp[5]] = (departments[emp[5]] || 0) + emp[3];
-                        genders[emp[2]]++;
-                        let year = new Date(emp[4]).getFullYear();
-                        joinYears[year] = (joinYears[year] || 0) + 1;
-                        let age = emp[1];
-                        if (age < 30) ageGroups["20-29"]++;
-                        else if (age < 40) ageGroups["30-39"]++;
-                        else ageGroups["40-49"]++;
-                    });
-
-                    new Chart(document.getElementById("salaryChart"), {
-                        type: "bar",
-                        data: {
-                            labels: Object.keys(departments),
-                            datasets: [{ label: "Lương Trung Bình", data: Object.values(departments), backgroundColor: "#007bff" }]
-                        },
-                        options: { responsive: true }
-                    });
-
-                    new Chart(document.getElementById("genderChart"), {
-                        type: "bar",
-                        data: {
-                            labels: Object.keys(genders),
-                            datasets: [{label: "Giới tính", data: Object.values(genders), backgroundColor: ["#ff6384", "#36a2eb"] }]
-                        },
-                        options: { responsive: true }
-                    });
-
-                    new Chart(document.getElementById("joiningChart"), {
-                        type: "line",
-                        data: {
-                            labels: Object.keys(joinYears),
-                            datasets: [{ label: "Số Nhân Viên", data: Object.values(joinYears), borderColor: "#28a745", fill: false }]
-                        },
-                        options: { responsive: true }
-                    });
-
-                    new Chart(document.getElementById("ageChart"), {
-                        type: "line",
-                        data: {
-                            labels: Object.keys(ageGroups),
-                            datasets: [{ label: "Độ tuổi", data: Object.values(ageGroups), backgroundColor: "#6f42c1" }]
-                        },
-                        options: { responsive: true }
-                    });
-                });
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loadingEl = document.querySelector('.loading-overlay');
+            
+            try {
+                loadingEl.style.display = 'block';
+                
+                // Fetch data từ API
+                const response = await fetch('https://script.googleusercontent.com/macros/echo?user_content_key=mIvVZ2lB_pPg9pvKt-v3mZuiCX5yGFNrIkyRp_YmGnwgQLju3GCGMwn1l5DvHTlDoJ8A4l9GohcaoNru8ATtaspk8QhYm1M8OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa8ER2BJ6BHIrvnA5XwukZ8ovolL8j1V9J25IxCktn80552Hlow2l337MSa1UhCkMo3k0Plm3nOKhhfi1U4G9DaMno0yshXGgVM3BI-dLAEELbuTgeJo7oVDQDDmPCF_Tzw&lib=MLAx3PPFhf3rlm25CDpMOL6VQSSnWPj7K');
+                const rawData = await response.json();
+                
+                // Xử lý dữ liệu
+                const processedData = processHRData(rawData);
+                
+                // Khởi tạo các thành phần
+                renderSummaryCards(processedData);
+                initDataTable(processedData);
+                renderCharts(processedData);
+                
+            } catch (error) {
+                handleError(error);
+            } finally {
+                loadingEl.style.display = 'none';
+            }
         });
+
+        function processHRData(rawData) {
+            return rawData.slice(1).map(row => ({
+                name: row[0] || 'Không xác định',
+                age: Math.abs(parseInt(row[1])) || 0,
+                gender: convertGender(row[2]),
+                salary: (parseInt(row[3]) || 0) * 1000, // Chuyển đổi sang VND
+                joinDate: new Date(row[4]),
+                department: convertDepartment(row[5]),
+                city: row[6] || 'N/A'
+            }));
+        }
+
+        function convertGender(englishGender) {
+            const genderMap = {
+                'Male': 'Nam',
+                'Female': 'Nữ'
+            };
+            return genderMap[englishGender] || 'Khác';
+        }
+
+        function convertDepartment(englishDept) {
+            const deptMap = {
+                'IT': 'Công nghệ',
+                'Finance': 'Tài chính',
+                'HR': 'Nhân sự',
+                'Marketing': 'Marketing'
+            };
+            return deptMap[englishDept] || 'Khác';
+        }
+
+        function renderSummaryCards(data) {
+            const summary = {
+                totalEmployees: data.length,
+                avgSalary: data.reduce((acc, emp) => acc + emp.salary, 0) / data.length,
+                latestJoinYear: Math.max(...data.map(emp => emp.joinDate.getFullYear())),
+                genderRatio: (data.filter(emp => emp.gender === 'Nam').length / data.length * 100).toFixed(1)
+            };
+
+            const cardsHTML = `
+                <div class="col-6 col-md-3">
+                    <div class="card bg-primary text-white h-100">
+                        <div class="card-body">
+                            <h5>Tổng nhân viên</h5>
+                            <h2>${summary.totalEmployees}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card bg-success text-white h-100">
+                        <div class="card-body">
+                            <h5>Lương trung bình</h5>
+                            <h2>${new Intl.NumberFormat('vi-VN').format(summary.avgSalary/1000000)}tr</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card bg-info text-white h-100">
+                        <div class="card-body">
+                            <h5>Năm tuyển mới nhất</h5>
+                            <h2>${summary.latestJoinYear}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card bg-warning text-dark h-100">
+                        <div class="card-body">
+                            <h5>Tỷ lệ Nam</h5>
+                            <h2>${summary.genderRatio}%</h2>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('summaryCards').innerHTML = cardsHTML;
+        }
+
+        function initDataTable(data) {
+            const table = $('#hrTable').DataTable({
+                data: data,
+                columns: [
+                    { data: 'name' },
+                    { data: 'age' },
+                    { data: 'gender' },
+                    { 
+                        data: 'salary',
+                        render: salary => `<span class="text-success fw-bold">${new Intl.NumberFormat('vi-VN').format(salary/1000000)}tr</span>`
+                    },
+                    { 
+                        data: 'joinDate',
+                        render: date => date.toLocaleDateString('vi-VN')
+                    },
+                    { data: 'department' },
+                    { data: 'city' }
+                ],
+                dom: '<"row mb-3"<"col-md-4"l><"col-md-4"f><"col-md-4"B>>rtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        text: '📄 Xuất PDF',
+                        className: 'btn-danger',
+                        title: 'Báo cáo nhân sự',
+                        customize: function(doc) {
+                            doc.content.splice(0, 0, {
+                                text: 'Báo cáo Toàn diện Nhân sự',
+                                fontSize: 18,
+                                alignment: 'center',
+                                margin: [0, 0, 0, 20]
+                            });
+                            doc.styles.tableHeader.fontSize = 12;
+                            doc.defaultStyle.fontSize = 10;
+                        }
+                    }
+                ],
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/vi.json'
+                },
+                order: [[4, 'desc']]
+            });
+        }
+
+        function renderCharts(data) {
+            // Biểu đồ Lương
+            new Chart(document.getElementById('salaryAnalysis'), {
+                type: 'bar',
+                data: {
+                    labels: [...new Set(data.map(emp => emp.department))],
+                    datasets: [{
+                        label: 'Lương trung bình (triệu VND)',
+                        data: [...new Set(data.map(emp => emp.department))].map(dept => {
+                            const deptEmployees = data.filter(emp => emp.department === dept);
+                            return deptEmployees.reduce((sum, emp) => sum + emp.salary, 0) / deptEmployees.length / 1000000;
+                        }),
+                        backgroundColor: '#007bff',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` ${ctx.raw.toLocaleString('vi-VN')} triệu VND`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Triệu VND' }
+                        }
+                    }
+                }
+            });
+
+            // Biểu đồ Nhân khẩu học
+            new Chart(document.getElementById('demographics'), {
+                type: 'pie',
+                data: {
+                    labels: ['Nam', 'Nữ', 'Khác'],
+                    datasets: [{
+                        data: [
+                            data.filter(emp => emp.gender === 'Nam').length,
+                            data.filter(emp => emp.gender === 'Nữ').length,
+                            data.filter(emp => !['Nam', 'Nữ'].includes(emp.gender)).length
+                        ],
+                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                        hoverOffset: 20
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { position: 'right' },
+                        tooltip: { bodyFont: { size: 16 } },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold' },
+                            formatter: value => `${Math.round(value/data.length*100)}%`
+                        }
+                    }
+                }
+            });
+        }
+
+        function handleError(error) {
+            console.error('Lỗi hệ thống:', error);
+            alert('Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau!');
+            document.querySelectorAll('.chart-card').forEach(card => {
+                card.innerHTML = '<div class="alert alert-danger m-3">Không thể tải dữ liệu biểu đồ</div>';
+            });
+        }
     </script>
 </body>
 </html>
