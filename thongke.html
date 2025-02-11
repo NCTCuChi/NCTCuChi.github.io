@@ -288,113 +288,121 @@ section{
 
 
 <script>
+  <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // Load data cho bảng CS QLHC
         fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet3")
             .then(response => response.json())
             .then(data => {
                 const records = data.slice(1);
                 const residenceBody = document.querySelector("#elderlyResidenceTable tbody");
-                const registrationBody = document.querySelector("#elderlyRegistrationTable tbody");
                 
                 records.forEach(record => {
-                    // Bảng Cư trú
                     residenceBody.innerHTML += `
                         <tr>
-                            <td>${record[0]}</td>
-                            <td>${record[1]}</td>
-                            <td>${record[2]}</td>
-                            <td>${record[3]}</td>
-                            <td>${record[4]}</td>
-                            <td>${record[5]}</td>
-                            <td>${record[6]}</td>
+                            <td>${record[0] || ''}</td>
+                            <td>${record[1] || ''}</td>
+                            <td>${record[2] || 0}</td>
+                            <td>${record[3] || 0}</td>
+                            <td>${record[4] || 0}</td>
+                            <td>${record[5] || 0}</td>
+                            <td>${record[6] || 0}</td>
                         </tr>`;
                 });
             });
-    });
 
+        // Load data chính
+        fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet1")
+            .then(response => response.json())
+            .then(data => {
+                const records = data.slice(1, -1);
+                let tableBody = document.querySelector("#dataTable tbody");
+                let totalNCT = 0, maxNCT = 0, minNCT = Infinity;
+                let totalNCTtck = data[data.length - 1][5];
+                let largestStation = "", smallestStation = "";
+                let stationNames = [], nctCounts = [];
+                let ncttckCounts = [];
 
+                records.forEach((record, index) => {
+                    let nct = parseInt(record[2]) || 0;
+                    totalNCT += nct;
+                    stationNames.push(record[1] || `Trạm ${index + 1}`);
+                    nctCounts.push(nct);
+                    ncttckCounts.push(parseInt(record[5]) || 0);
 
-    document.addEventListener("DOMContentLoaded", function () {
-    fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet1")
-        .then(response => response.json())
-        .then(data => {
-            const records = data.slice(1, -1);
-            let tableBody = document.querySelector("#dataTable tbody");
-            let totalNCT = 0, maxNCT = 0, minNCT = Infinity;
-            let totalNCTtck = data[data.length - 1][5];
-            let largestStation = "", smallestStation = "";
-            let stationNames = [], nctCounts = [];
+                    if (nct > maxNCT) {
+                        maxNCT = nct;
+                        largestStation = record[1];
+                    }
+                    if (nct < minNCT) {
+                        minNCT = nct;
+                        smallestStation = record[1];
+                    }
 
-            // Sửa lại phần lấy dữ liệu từ chối khám
-            let ncttckCounts = records.map(record => parseInt(record[5]) || 0);
-
-            records.forEach(record => {
-                let nct = parseInt(record[2]) || 0;
-                totalNCT += nct;
-                stationNames.push(record[1]);
-                nctCounts.push(nct);
-
-                if (nct > maxNCT) { maxNCT = nct; largestStation = record[1]; }
-                if (nct < minNCT) { minNCT = nct; smallestStation = record[1]; }
-
-                let row = `<tr>
-                        <td>${record[0]}</td>
-                        <td>${record[1]}</td>
-                        <td>${record[2]}</td>
-                        <td>${record[3]}</td>
-                        <td>${record[4]}</td>
-                        <td>${record[5]}</td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td>${record[0] || ''}</td>
+                            <td>${record[1] || ''}</td>
+                            <td>${record[2] || 0}</td>
+                            <td>${record[3] || 0}</td>
+                            <td>${record[4] || 0}</td>
+                            <td>${record[5] || 0}</td>
+                        </tr>`;
                 });
-            });
-		
-                    
-            // Hiển thị các thông tin tổng
-            document.getElementById("totalNCT").textContent = totalNCT;
-            document.getElementById("largestStation").textContent = largestStation;
-            document.getElementById("smallestStation").textContent = smallestStation;
-            document.getElementById("totalNCTtck").textContent = totalNCTtck;
 
-            // Biểu đồ 1: Số NCT
-            new Chart(document.getElementById("barChartNCT"), {
-                type: 'bar',
-                data: { 
-                    labels: stationNames,
-                    datasets: [{
-                        label: 'Số NCT',
-                        data: nctCounts,
-                        backgroundColor: '#007bff'
-                    }]
-                },
-                options: { 
-                    animation: { 
-                        duration: 1500, 
-                        easing: 'easeOutBounce' 
-                    } 
-                }
-            });
+                // Cập nhật thông tin tổng
+                document.getElementById("totalNCT").textContent = totalNCT;
+                document.getElementById("totalNCTtck").textContent = totalNCTtck;
+                document.getElementById("largestStation").textContent = largestStation;
+                document.getElementById("smallestStation").textContent = smallestStation;
 
-            // Biểu đồ 2: Số NCT từ chối khám (Sửa ID và dữ liệu)
-            new Chart(document.getElementById("barChartTCK"), {
-                type: 'bar',
-                data: { 
-                    labels: stationNames,
-                    datasets: [{
-                        label: 'Số NCT từ chối khám',
-                        data: ncttckCounts,
-                        backgroundColor: '#dc3545' // Màu đỏ để phân biệt
-                    }]
-                },
-                options: { 
-                    animation: { 
-                        duration: 1500, 
-                        easing: 'easeOutBounce' 
-                    } 
-                }
+                // Khởi tạo DataTable
+                $('#dataTable').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: ['excel']
+                });
+
+                // Vẽ biểu đồ
+                const chartOptions = {
+                    responsive: true,
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutBounce'
+                    }
+                };
+
+                new Chart(document.getElementById("barChartNCT"), {
+                    type: 'bar',
+                    data: {
+                        labels: stationNames,
+                        datasets: [{
+                            label: 'Số NCT được khám',
+                            data: nctCounts,
+                            backgroundColor: '#007bff'
+                        }]
+                    },
+                    options: chartOptions
+                });
+
+                new Chart(document.getElementById("barChartTCK"), {
+                    type: 'bar',
+                    data: {
+                        labels: stationNames,
+                        datasets: [{
+                            label: 'Số NCT từ chối khám',
+                            data: ncttckCounts,
+                            backgroundColor: '#dc3545'
+                        }]
+                    },
+                    options: chartOptions
+                });
+            })
+            .catch(error => {
+                console.error('Lỗi khi tải dữ liệu:', error);
+                alert('Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại sau.');
             });
-        });
-});
+    });
+</script>
 </script>
 
 </body>
