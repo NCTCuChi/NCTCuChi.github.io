@@ -179,6 +179,13 @@ section{
                 <h3 class="text-primary fw-bold" id="totalNCT">0</h3>
             </div>
         </div>
+ <div class="col-md-4">
+            <div class="info-card">
+                <h5>Tổng số NCT từ chối khám</h5>
+                <h3 class="text-danger fw-bold" id="totalNCTtck">0</h3>
+            </div>
+        </div>
+
         <div class="col-md-4">
             <div class="info-card">
                 <h5>Khám nhiều nhất</h5>
@@ -310,6 +317,8 @@ section{
                 const records = data.slice(1, -1);
                 let tableBody = document.querySelector("#dataTable tbody");
                 let totalNCT = 0, maxNCT = 0, minNCT = Infinity;
+ 		// Lấy tổng số từ dòng cuối cùng (dòng "Tổng cộng")
+		let totalNCTtck = data[data.length - 1][5];
                 let largestStation = "", smallestStation = "";
                 let stationNames = [], nctCounts = [];
 
@@ -336,7 +345,10 @@ section{
                 document.getElementById("totalNCT").textContent = totalNCT;
                 document.getElementById("largestStation").textContent = largestStation;
                 document.getElementById("smallestStation").textContent = smallestStation;
+		    // Hiển thị tổng số NCT từ chối khám lên giao diện
+   			 document.getElementById("totalNCTtck").textContent = totalNCTtck;
 
+    
                 new Chart(document.getElementById("barChart"), {
                     type: 'bar',
                     data: { labels: stationNames, datasets: [{ label: 'Số NCT', data: nctCounts, backgroundColor: '#007bff' }] },
