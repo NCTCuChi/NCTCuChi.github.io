@@ -204,15 +204,17 @@ section{
     <div class="row g-4 mt-4">
         <div class="col-md-6">
             <div class="chart-container">
-                <canvas id="barChart"></canvas>
+                <canvas id="barChartNCT"></canvas>
             </div>
         </div>
+
         <div class="col-md-6">
             <div class="chart-container">
-                <canvas id="lineChart"></canvas>
+                <canvas id="barChartTCK"></canvas>
             </div>
         </div>
     </div>
+
 <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
@@ -310,28 +312,32 @@ section{
             });
     });
 
+
+
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("https://script.googleusercontent.com/macros/echo?user_content_key=eWD9KDnoFACahaW37G16bmFrCNKubuDcPz6Ws3H1sz6-Yl6RYnGTli7mYx6wbHMPy-0pg99qppOB_vj_TIs8PotaUaeNcOq9OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa87hqr123fmx248BvLJ7Hr7YIR2MrOF6pYTlLPL3tKV3DQtNRxv7PqP_tcfr-KtoyB3iShl8E-3bRu1f4xb2ilvc8wwECQEug_ekoa_Y_UXNtG9SgAd80OdDO9C39X8Jng&lib=MYisXarkTAGcJyijFr0C8MiooXnPnd0iI")
-            .then(response => response.json())
-            .then(data => {
-                const records = data.slice(1, -1);
-                let tableBody = document.querySelector("#dataTable tbody");
-                let totalNCT = 0, maxNCT = 0, minNCT = Infinity;
- 		// Lấy tổng số từ dòng cuối cùng (dòng "Tổng cộng")
-		let totalNCTtck = data[data.length - 1][5];
-                let largestStation = "", smallestStation = "";
-                let stationNames = [], nctCounts = [];
+    fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet1")
+        .then(response => response.json())
+        .then(data => {
+            const records = data.slice(1, -1);
+            let tableBody = document.querySelector("#dataTable tbody");
+            let totalNCT = 0, maxNCT = 0, minNCT = Infinity;
+            let totalNCTtck = data[data.length - 1][5];
+            let largestStation = "", smallestStation = "";
+            let stationNames = [], nctCounts = [];
 
-                records.forEach(record => {
-                    let nct = parseInt(record[2]) || 0;
-                    totalNCT += nct;
-                    stationNames.push(record[1]);
-                    nctCounts.push(nct);
+            // Sửa lại phần lấy dữ liệu từ chối khám
+            let ncttckCounts = records.map(record => parseInt(record[5]) || 0);
 
-                    if (nct > maxNCT) { maxNCT = nct; largestStation = record[1]; }
-                    if (nct < minNCT) { minNCT = nct; smallestStation = record[1]; }
+            records.forEach(record => {
+                let nct = parseInt(record[2]) || 0;
+                totalNCT += nct;
+                stationNames.push(record[1]);
+                nctCounts.push(nct);
 
-                    let row = `<tr>
+                if (nct > maxNCT) { maxNCT = nct; largestStation = record[1]; }
+                if (nct < minNCT) { minNCT = nct; smallestStation = record[1]; }
+
+                let row = `<tr>
                         <td>${record[0]}</td>
                         <td>${record[1]}</td>
                         <td>${record[2]}</td>
@@ -341,26 +347,54 @@ section{
                     </tr>`;
                     tableBody.innerHTML += row;
                 });
-			
-                document.getElementById("totalNCT").textContent = totalNCT;
-                document.getElementById("largestStation").textContent = largestStation;
-                document.getElementById("smallestStation").textContent = smallestStation;
-		    // Hiển thị tổng số NCT từ chối khám lên giao diện
-   			 document.getElementById("totalNCTtck").textContent = totalNCTtck;
-
-    
-                new Chart(document.getElementById("barChart"), {
-                    type: 'bar',
-                    data: { labels: stationNames, datasets: [{ label: 'Số NCT', data: nctCounts, backgroundColor: '#007bff' }] },
-                    options: { animation: { duration: 1500, easing: 'easeOutBounce' } }
-                });
-new Chart(document.getElementById("lineChart"), {
-                    type: 'line',
-                    data: { labels: stationNames, datasets: [{ label: 'Số NCT', data: nctCounts, backgroundColor: '#007bff' }] },
-                    options: { animation: { duration: 1500, easing: 'easeOutBounce' } }
-                });
             });
-    });
+		
+                    
+            // Hiển thị các thông tin tổng
+            document.getElementById("totalNCT").textContent = totalNCT;
+            document.getElementById("largestStation").textContent = largestStation;
+            document.getElementById("smallestStation").textContent = smallestStation;
+            document.getElementById("totalNCTtck").textContent = totalNCTtck;
+
+            // Biểu đồ 1: Số NCT
+            new Chart(document.getElementById("barChartNCT"), {
+                type: 'bar',
+                data: { 
+                    labels: stationNames,
+                    datasets: [{
+                        label: 'Số NCT',
+                        data: nctCounts,
+                        backgroundColor: '#007bff'
+                    }]
+                },
+                options: { 
+                    animation: { 
+                        duration: 1500, 
+                        easing: 'easeOutBounce' 
+                    } 
+                }
+            });
+
+            // Biểu đồ 2: Số NCT từ chối khám (Sửa ID và dữ liệu)
+            new Chart(document.getElementById("barChartTCK"), {
+                type: 'bar',
+                data: { 
+                    labels: stationNames,
+                    datasets: [{
+                        label: 'Số NCT từ chối khám',
+                        data: ncttckCounts,
+                        backgroundColor: '#dc3545' // Màu đỏ để phân biệt
+                    }]
+                },
+                options: { 
+                    animation: { 
+                        duration: 1500, 
+                        easing: 'easeOutBounce' 
+                    } 
+                }
+            });
+        });
+});
 </script>
 
 </body>
