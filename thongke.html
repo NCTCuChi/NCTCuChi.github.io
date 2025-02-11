@@ -161,7 +161,10 @@ section{
         color: white;
         border-radius: 10px 10px 0 0;
     }
-
+.table-warning td {
+    background-color: #fff3cd !important;
+    border-color: #ffe69c;
+}
     </style>
 </head>
 <body>
@@ -219,12 +222,23 @@ section{
             Dữ liệu chi tiết 
         </button>
     </li>
+
+<li class="nav-item" role="presentation">
+        <button class="nav-link" id="refusal-tab" data-bs-toggle="tab" data-bs-target="#refusal" type="button" role="tab">
+            Từ chối khám
+        </button>
+    </li>
+
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="elderly-tab" data-bs-toggle="tab" data-bs-target="#elderly" type="button" role="tab">
             Dữ liệu NCT > 60 (CS QLHC)
         </button>
     </li>
+
 </ul>
+
+
+
 
 <div class="tab-content mt-3">
     <!-- Tab 1: Thống Kê Chung -->
@@ -246,7 +260,7 @@ section{
                     <th>Xét nghiệm</th>
                     <th>Siêu Âm</th>
                     <th>Số NCT nhập liệu</th>
-                    <th>Số NCT từ chối khám</th>
+                    
                 </tr>
             </thead>
             <tbody></tbody>
@@ -256,7 +270,37 @@ section{
         </div>
     </div>
 
-    <!-- Tab 2: Dữ liệu Người cao tuổi trên 60 -->
+<!-- Tab 2: Dữ liệu Người cao tuổi từ chối khám -->
+
+<div class="tab-content mt-3">
+    <!-- Tab Từ chối khám -->
+    <div class="tab-pane fade" id="refusal" role="tabpanel">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <h4>Dữ liệu người từ chối khám</h4>
+            </div>
+            <table id="refusalTable" class="table table-hover table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>STT</th>
+                        <th>Trạm Y tế</th>
+                        <th>Số lượng NCT 
+đã thu thập thông tin NHƯNG CHƯA đưa lên hệ thống</th>
+                        <th>Số lượng NCT 
+đã thu thập thông tin và đưa lên hệ thống</th>
+                        <th>Từ chối khám do đang điều trị tại bệnh viện
+ nên không có nhu cầu</th>
+                        <th>Lý do khác</th>
+                        <th>Cập nhật đến 20/11/24</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <!-- Tab 3: Dữ liệu Người cao tuổi trên 60 -->
     <div class="tab-pane fade" id="elderly" role="tabpanel">
         <div class="dual-table-container">
     <div class="table-wrapper">
@@ -287,6 +331,42 @@ section{
 
 
 <script>
+
+
+// Xử lý dữ liệu từ chối khám
+fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet2")
+.then(response => response.json())
+.then(data => {
+    const refusalBody = document.querySelector("#refusalTable tbody");
+    const totalRow = data[data.length - 1]; // Lấy dòng tổng
+    
+    data.slice(1, -1).forEach((record, index) => {
+        refusalBody.innerHTML += `
+            <tr>
+                <td>${record[0]}</td>
+                <td>${record[1]}</td>
+                <td>${record[2] || 0}</td>
+                <td>${record[3] || 0}</td>
+                <td>${record[4] || 0}</td>
+                <td>${record[5] || 0}</td>
+                <td>${record[6] || ''}</td>
+            </tr>`;
+    });
+
+    // Thêm dòng tổng
+    refusalBody.innerHTML += `
+        <tr class="table-warning fw-bold">
+            <td>${totalRow[0]}</td>
+            <td>${totalRow[1]}</td>
+            <td>${totalRow[2]}</td>
+            <td>${totalRow[3]}</td>
+            <td>${totalRow[4]}</td>
+            <td>${totalRow[5]}</td>
+            <td></td>
+        </tr>`;
+});
+
+
     document.addEventListener("DOMContentLoaded", function () {
         fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet3")
             .then(response => response.json())
@@ -314,11 +394,10 @@ section{
 
 
             // Hiển thị các thông tin tổng
-           
 
-           
+         
 
-    document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
         fetch("https://script.googleusercontent.com/macros/echo?user_content_key=eWD9KDnoFACahaW37G16bmFrCNKubuDcPz6Ws3H1sz6-Yl6RYnGTli7mYx6wbHMPy-0pg99qppOB_vj_TIs8PotaUaeNcOq9OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa87hqr123fmx248BvLJ7Hr7YIR2MrOF6pYTlLPL3tKV3DQtNRxv7PqP_tcfr-KtoyB3iShl8E-3bRu1f4xb2ilvc8wwECQEug_ekoa_Y_UXNtG9SgAd80OdDO9C39X8Jng&lib=MYisXarkTAGcJyijFr0C8MiooXnPnd0iI")
            
         .then(response => response.json())
@@ -365,7 +444,7 @@ section{
                 data: { 
                     labels: stationNames,
                     datasets: [{
-                        label: 'Số NCT',
+                        label: 'Số NCT đã khám',
                         data: nctCounts,
                         backgroundColor: '#007bff'
                     }]
