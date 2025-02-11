@@ -9,9 +9,10 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biểu đồ Thống Kê</title>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
@@ -22,6 +23,7 @@
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -140,6 +142,26 @@ section{
 .btn-jnc a{
     color: #fff;
 }
+
+    .dual-table-container {
+        display: flex;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .table-wrapper {
+        flex: 1;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+    }
+    .table-title {
+        padding: 15px;
+        background: #008e94;
+        color: white;
+        border-radius: 10px 10px 0 0;
+    }
+
     </style>
 </head>
 <body>
@@ -147,7 +169,7 @@ section{
 
 <div class="container mt-5">
 
-    <h2 class="dashboard-title">Thống Kê</h2>
+    <h2 class="dashboard-title">Trực quan hóa dữ liệu</h2>
 
     <!-- THÔNG TIN TỔNG QUAN -->
     <div class="row g-4">
@@ -184,10 +206,30 @@ section{
             </div>
         </div>
     </div>
+<ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
+            Dữ liệu chi tiết 
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="elderly-tab" data-bs-toggle="tab" data-bs-target="#elderly" type="button" role="tab">
+            Dữ liệu NCT > 60 (CS QLHC)
+        </button>
+    </li>
+</ul>
 
-    <!-- BẢNG DỮ LIỆU -->
-    <div class="table-container mt-5">
-        <h3 class="mb-3">Dữ liệu chi tiết</h3>
+<div class="tab-content mt-3">
+    <!-- Tab 1: Thống Kê Chung -->
+
+    <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+        <div class="container">
+                         <!-- BẢNG DỮ LIỆU -->
+    <div class="table-wrapper">
+        <div class="table-title">
+            <h4>Dữ liệu chi tiết</h4>
+        </div>
+
         <table id="dataTable" class="table table-hover table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -203,8 +245,64 @@ section{
         </table>
     </div>
 </div>
+        </div>
+    </div>
+
+    <!-- Tab 2: Dữ liệu Người cao tuổi trên 60 -->
+    <div class="tab-pane fade" id="elderly" role="tabpanel">
+        <div class="dual-table-container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <h4>Dữ liệu Người cao tuổi trên 60 của phòng CS QLHC về TTXH</h4>
+        </div>
+        <table id="elderlyResidenceTable" class="table table-hover table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>STT</th>
+                    <th>Phường/Xã</th>
+                    <th>Thường trú</th>
+                    <th>Tạm trú</th>
+ 			<th>Thực tế đang cư trú chưa đủ điều kiện đăng ký thường trú</th>
+                    <th>Thực tế đang cư trú chưa đủ điều kiện đãng ký tạm trú</th>
+                    <th>Nhân khẩu lưu trú tại thời điểm thống kê</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+    </div>
+</div>
+
+   
+
 
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet3")
+            .then(response => response.json())
+            .then(data => {
+                const records = data.slice(1);
+                const residenceBody = document.querySelector("#elderlyResidenceTable tbody");
+                const registrationBody = document.querySelector("#elderlyRegistrationTable tbody");
+                
+                records.forEach(record => {
+                    // Bảng Cư trú
+                    residenceBody.innerHTML += `
+                        <tr>
+                            <td>${record[0]}</td>
+                            <td>${record[1]}</td>
+                            <td>${record[2]}</td>
+                            <td>${record[3]}</td>
+                            <td>${record[4]}</td>
+                            <td>${record[5]}</td>
+                            <td>${record[6]}</td>
+                        </tr>`;
+                });
+            });
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
         fetch("https://script.googleusercontent.com/macros/echo?user_content_key=eWD9KDnoFACahaW37G16bmFrCNKubuDcPz6Ws3H1sz6-Yl6RYnGTli7mYx6wbHMPy-0pg99qppOB_vj_TIs8PotaUaeNcOq9OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa87hqr123fmx248BvLJ7Hr7YIR2MrOF6pYTlLPL3tKV3DQtNRxv7PqP_tcfr-KtoyB3iShl8E-3bRu1f4xb2ilvc8wwECQEug_ekoa_Y_UXNtG9SgAd80OdDO9C39X8Jng&lib=MYisXarkTAGcJyijFr0C8MiooXnPnd0iI")
             .then(response => response.json())
