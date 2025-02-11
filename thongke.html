@@ -334,6 +334,7 @@ section{
 
 
 // Xử lý dữ liệu từ chối khám
+document.addEventListener("DOMContentLoaded", function () {
 fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet2")
 .then(response => response.json())
 .then(data => {
@@ -365,7 +366,7 @@ fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1d
             <td></td>
         </tr>`;
 });
-
+    });
 
     document.addEventListener("DOMContentLoaded", function () {
         fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet3")
