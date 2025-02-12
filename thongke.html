@@ -201,6 +201,12 @@ section{
                 <h4 id="smallestStation" class="text-danger fw-bold">Đang tính toán...</h4>
             </div>
         </div>
+<div class="col-md-4">
+    <div class="info-card">
+        <h5>Tổng số NCT cần nhập để đạt 80%</h5>
+        <h3 class="text-warning fw-bold" id="totalNCTNeeded">0</h3>
+    </div>
+</div>
     </div>
 
     <!-- BIỂU ĐỒ -->
@@ -299,6 +305,26 @@ section{
         </div>
     </div>
 </div>
+
+<!-- Bảng tỉ lệ và số lượng NCT cần nhập -->
+<div class="table-wrapper">
+    <div class="table-title">
+        <h4>Tỉ lệ và số lượng NCT cần nhập để đạt 80%</h4>
+    </div>
+    <table id="ratioTable" class="table table-hover table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>STT</th>
+                <th>Trạm Y tế</th>
+                <th>Tỉ lệ</th>
+                <th>Số lượng NCT cần nhập để đạt 80%</th>
+                <th>Trạm đã đạt 80%</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
 
     <!-- Tab 3: Dữ liệu Người cao tuổi trên 60 -->
     <div class="tab-pane fade" id="elderly" role="tabpanel">
@@ -474,6 +500,109 @@ fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1d
                         duration: 1500, 
                         easing: 'easeOutBounce' 
                     } 
+                }
+            });
+        });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=PhanTich")
+        .then(response => response.json())
+        .then(data => {
+            const records = data.slice(1, -1); // Bỏ qua hàng đầu tiên (tiêu đề) và hàng cuối cùng (tổng cộng)
+            const totalRow = data[data.length - 1]; // Lấy hàng tổng cộng
+
+            // Tính toán các giá trị cần thiết
+            let totalNCT = 0;
+            let totalNCTNeeded = 0;
+            let stationNames = [];
+            let nctCounts = [];
+            let nctNeededCounts = [];
+            let ratios = [];
+
+            records.forEach(record => {
+                const stationName = record[1];
+                const nctCollected = parseInt(record[2]) || 0;
+                const nctTotal = parseInt(record[3]) || 0;
+                const ratio = parseFloat(record[4]) || 0;
+                const nctNeeded = parseFloat(record[5]) || 0;
+
+                totalNCT += nctCollected;
+                totalNCTNeeded += nctNeeded;
+
+                stationNames.push(stationName);
+                nctCounts.push(nctCollected);
+                nctNeededCounts.push(nctNeeded);
+                ratios.push(ratio);
+            });
+
+            // Hiển thị các giá trị lên dashboard
+            document.getElementById("totalNCT").textContent = totalNCT.toLocaleString();
+            document.getElementById("totalNCTNeeded").textContent = totalNCTNeeded.toLocaleString();
+
+            // Tìm trạm có số lượng NCT khám ít nhất
+            let minNCT = Math.min(...nctCounts);
+            let minStationIndex = nctCounts.indexOf(minNCT);
+            let minStationName = stationNames[minStationIndex];
+            document.getElementById("smallestStation").textContent = `${minStationName} (${minNCT.toLocaleString()})`;
+
+            // Hiển thị tỉ lệ và số lượng NCT cần nhập để đạt 80%
+            const ratioTableBody = document.querySelector("#ratioTable tbody");
+            records.forEach((record, index) => {
+                ratioTableBody.innerHTML += `
+                    <tr>
+                        <td>${record[0]}</td>
+                        <td>${record[1]}</td>
+                        <td>${(ratios[index] * 100).toFixed(2)}%</td>
+                        <td>${nctNeededCounts[index].toLocaleString()}</td>
+                        <td>${record[6]}</td>
+                    </tr>`;
+            });
+
+            // Thêm dòng tổng cộng
+            ratioTableBody.innerHTML += `
+                <tr class="table-warning fw-bold">
+                    <td>${totalRow[0]}</td>
+                    <td>${totalRow[1]}</td>
+                    <td>${(parseFloat(totalRow[4]) * 100).toFixed(2)}%</td>
+                    <td>${totalNCTNeeded.toLocaleString()}</td>
+                    <td>${totalRow[6]}</td>
+                </tr>`;
+
+            // Vẽ biểu đồ
+            new Chart(document.getElementById("barChartNCT"), {
+                type: 'bar',
+                data: {
+                    labels: stationNames,
+                    datasets: [{
+                        label: 'Số NCT đã khám',
+                        data: nctCounts,
+                        backgroundColor: '#007bff'
+                    }]
+                },
+                options: {
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutBounce'
+                    }
+                }
+            });
+
+            new Chart(document.getElementById("barChartTCK"), {
+                type: 'bar',
+                data: {
+                    labels: stationNames,
+                    datasets: [{
+                        label: 'Số NCT cần nhập để đạt 80%',
+                        data: nctNeededCounts,
+                        backgroundColor: '#dc3545'
+                    }]
+                },
+                options: {
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutBounce'
+                    }
                 }
             });
         });
