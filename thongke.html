@@ -221,6 +221,11 @@ section{
                 <canvas id="barChartTCK"></canvas>
             </div>
         </div>
+<div class="col-md-6">
+            <div class="chart-container">
+                <canvas id="barChartTCKk"></canvas>
+            </div>
+        </div>
     </div>
 <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
@@ -569,33 +574,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${totalRow[6]}</td>
                 </tr>`;
 
-            // Vẽ biểu đồ
-            new Chart(document.getElementById("barChartNCT"), {
-                type: 'bar',
-                data: {
-                    labels: stationNames,
-                    datasets: [{
-                        label: 'Số NCT đã khám',
-                        data: nctCounts,
-                        backgroundColor: '#007bff'
-                    }]
-                },
-                options: {
-                    animation: {
-                        duration: 1500,
-                        easing: 'easeOutBounce'
-                    }
-                }
-            });
+          
 
-            new Chart(document.getElementById("barChartTCK"), {
+            new Chart(document.getElementById("barChartTCKk"), {
                 type: 'bar',
                 data: {
                     labels: stationNames,
                     datasets: [{
                         label: 'Số NCT cần nhập để đạt 80%',
                         data: nctNeededCounts,
-                        backgroundColor: '#dc3545'
+                        backgroundColor: '#f5e214'
                     }]
                 },
                 options: {
