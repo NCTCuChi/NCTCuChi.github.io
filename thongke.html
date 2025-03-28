@@ -1,612 +1,1131 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-      <meta charset="utf-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Khám sức khỏe người cao tuổi Củ Chi 2025</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="Thống kê và trực quan hóa dữ liệu khám sức khỏe người cao tuổi Củ Chi 2025">
+  <meta name="keywords" content="người cao tuổi, khám sức khỏe, Củ Chi, thống kê y tế">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biểu đồ Thống Kê</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-        }
-        .dashboard-title {
-            font-weight: 600;
-            text-align: center;
-            padding: 20px;
-            color: #333;
-        }
-        .info-card {
-            transition: 0.3s;
-            border-left: 5px solid #0d6efd;
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-        .table-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .chart-container {
-            padding: 20px;
-            border-radius: 10px;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    list-style: none;
-    text-decoration: none;
-}
-
-section{
-    margin-top:-5px;
-}
-
-.container{
-    max-width: 1500px;
-}
-
-/* jnc service starts */
-.service .service-wrapper{
-    margin: auto;
-}
-.service-wrapper .row1{
-    text-align: center;
-}
-.service-wrapper .label-service{
-    font-size: 20px;
-    font-family: var(--heading-font);
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--second-color);
-}
-.service-wrapper .heading-service{
-    font-size: 40px;
-    font-family: var(--heading-font);
-    font-weight: 700;
-    color: #4a4a4a;
-    margin: 10px 0;
-}
-.service-wrapper .subheading-service{
-    font-size: 20px;
-
-}
-.service-wrapper .row2{
-    margin-top: 10px;
-    background-color: var(--main-color);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-.row2 .box-service{
-    position: relative;
-    max-width: 300px;
-    text-align: center;
-}
-.box-service i{
-    font-size: 2.5rem;
-    margin-top: 10px;
-}
-.box-service h3{
-    font-size: 20px;
-    margin-top: 5px;
-}
-.box-service .btn-jnc{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color:#008e94;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
-    transition: .4s ease-in-out;
-}
-.box-service:hover .btn-jnc{
-    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
-    transition: .4s ease-in-out;
-}
-.btn-jnc a{
-    color: #fff;
-}
-
-    .dual-table-container {
-        display: flex;
-        gap: 20px;
-        margin-top: 20px;
+  <style>
+    :root {
+      --primary-color: #11998e;
+      --secondary-color: #38ef7d;
+      --dark-color: #333;
+      --light-color: #f8f9fa;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --success-color: #28a745;
+      --info-color: #17a2b8;
     }
-    .table-wrapper {
-        flex: 1;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow-x: auto;
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa;
+      color: var(--dark-color);
+      line-height: 1.6;
     }
+    
+    .dashboard-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 25px 0;
+      border-radius: 0 0 20px 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .dashboard-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 1.8rem;
+    }
+    
+    .dashboard-subtitle {
+      opacity: 0.9;
+      font-weight: 300;
+      margin-top: 5px;
+    }
+    
+    .stat-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      border-left: 5px solid var(--primary-color);
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .stat-title {
+      color: #666;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    
+    .stat-value {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+    
+    .stat-icon {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 2rem;
+      opacity: 0.2;
+    }
+    
+    .primary-stat .stat-value {
+      color: var(--primary-color);
+    }
+    
+    .danger-stat .stat-value {
+      color: var(--danger-color);
+    }
+    
+    .success-stat .stat-value {
+      color: var(--success-color);
+    }
+    
+    .warning-stat .stat-value {
+      color: var(--warning-color);
+    }
+    
+    .info-stat .stat-value {
+      color: var(--info-color);
+    }
+    
+    .chart-container {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+    
+    .chart-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--dark-color);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding-bottom: 10px;
+    }
+    
+    .nav-tabs .nav-link {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      color: var(--dark-color);
+      border: none;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-tabs .nav-link.active {
+      color: var(--primary-color);
+      background: transparent;
+      border: none;
+    }
+    
+    .nav-tabs .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      background: var(--primary-color);
+      bottom: -1px;
+      left: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-tabs .nav-link.active::after {
+      width: 100%;
+    }
+    
+    .table-container {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+    
     .table-title {
-        padding: 15px;
-        background: #008e94;
-        color: white;
-        border-radius: 10px 10px 0 0;
+      background: var(--primary-color);
+      color: white;
+      padding: 15px 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
     }
-.table-warning td {
-    background-color: #fff3cd !important;
-    border-color: #ffe69c;
-}
-    </style>
+    
+    .table-title h4 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    
+    .table {
+      margin-bottom: 0;
+    }
+    
+    .table th {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      vertical-align: middle;
+    }
+    
+    .table-warning td {
+      background-color: rgba(255, 193, 7, 0.1) !important;
+      font-weight: 700;
+    }
+    
+    .progress {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #e9ecef;
+      margin-top: 5px;
+    }
+    
+    .progress-bar {
+      border-radius: 4px;
+    }
+    
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+    
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .badge-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .badge-warning {
+      background-color: var(--warning-color);
+      color: white;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-title {
+        font-size: 1.4rem;
+      }
+      
+      .stat-value {
+        font-size: 1.6rem;
+      }
+      
+      .chart-container, .table-container {
+        margin-bottom: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-
-<div class="container mt-5">
-
-    <h2 class="dashboard-title">Trực quan hóa dữ liệu</h2>
-
-    <!-- THÔNG TIN TỔNG QUAN -->
-     <div class="row g-4">
-        <div class="col-md-4">
-            <div class="info-card">
-                <h5>Tổng số NCT được KSK</h5>
-                <h3 class="text-primary fw-bold" id="totalNCT">0</h3>
-            </div>
-        </div>
- <div class="col-md-4">
-            <div class="info-card">
-                <h5>Tổng số NCT từ chối khám</h5>
-                <h3 class="text-danger fw-bold" id="totalNCTtck">0</h3>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="info-card">
-                <h5>Khám nhiều nhất</h5>
-                <h4 id="largestStation" class="text-success fw-bold">Đang tính toán...</h4>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="info-card">
-                <h5>Khám ít nhất</h5>
-                <h4 id="smallestStation" class="text-danger fw-bold">Đang tính toán...</h4>
-            </div>
-        </div>
-<div class="col-md-4">
-    <div class="info-card">
-        <h5>Tổng số NCT cần nhập để đạt 80%</h5>
-        <h3 class="text-warning fw-bold" id="totalNCTNeeded">0</h3>
-    </div>
+<div class="dashboard-header">
+  <div class="container">
+    <h1 class="dashboard-title text-center">Khám sức khỏe người cao tuổi Củ Chi 2025</h1>
+    <p class="dashboard-subtitle text-center">Trực quan hóa dữ liệu và thống kê khám sức khỏe</p>
+  </div>
 </div>
+
+<div class="container">
+
+  <!-- THÔNG TIN TỔNG QUAN -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-4 col-sm-6">
+      <div class="stat-card primary-stat">
+        <div class="stat-icon">
+          <i class="fas fa-user-check"></i>
+        </div>
+        <h5 class="stat-title">Tổng NCT được KSK</h5>
+        <div class="d-flex align-items-baseline">
+          <h2 class="stat-value" id="totalNCT">0</h2>
+          <div class="ms-2" id="totalNCTPercent"></div>
+        </div>
+      </div>
     </div>
-
-    <!-- BIỂU ĐỒ -->
-    <div class="row g-4 mt-4">
-        <div class="col-md-6">
-            <div class="chart-container">
-               <canvas id="barChartNCT"></canvas>
-            </div>
+    
+    <div class="col-md-4 col-sm-6">
+      <div class="stat-card danger-stat">
+        <div class="stat-icon">
+          <i class="fas fa-user-times"></i>
         </div>
-        <div class="col-md-6">
-            <div class="chart-container">
-                <canvas id="barChartTCK"></canvas>
-            </div>
-        </div>
-<div class="col-md-6">
-            <div class="chart-container">
-                <canvas id="barChartTCKk"></canvas>
-            </div>
-        </div>
+        <h5 class="stat-title">Tổng NCT từ chối khám</h5>
+        <h2 class="stat-value" id="totalNCTtck">0</h2>
+      </div>
     </div>
-<ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+    
+    <div class="col-md-4 col-sm-6">
+      <div class="stat-card warning-stat">
+        <div class="stat-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h5 class="stat-title">Cần nhập để đạt 80%</h5>
+        <h2 class="stat-value" id="totalNCTNeeded">0</h2>
+      </div>
+    </div>
+    
+    <div class="col-md-6 col-sm-6">
+      <div class="stat-card success-stat">
+        <div class="stat-icon">
+          <i class="fas fa-arrow-up"></i>
+        </div>
+        <h5 class="stat-title">Khám nhiều nhất</h5>
+        <h3 class="stat-value" id="largestStation">-</h3>
+      </div>
+    </div>
+    
+    <div class="col-md-6 col-sm-6">
+      <div class="stat-card info-stat">
+        <div class="stat-icon">
+          <i class="fas fa-arrow-down"></i>
+        </div>
+        <h5 class="stat-title">Khám ít nhất</h5>
+        <h3 class="stat-value" id="smallestStation">-</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIỂU ĐỒ -->
+  <div class="row mb-4">
+    <div class="col-lg-8">
+      <div class="chart-container">
+        <h4 class="chart-title">
+          <i class="fas fa-chart-bar me-2"></i>So sánh dữ liệu theo Trạm Y tế
+        </h4>
+        <div>
+          <canvas id="combinedChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="chart-container">
+        <h4 class="chart-title">
+          <i class="fas fa-chart-pie me-2"></i>Tiến độ khám sức khỏe
+        </h4>
+        <div>
+          <canvas id="progressChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="chart-container">
+        <h4 class="chart-title">
+          <i class="fas fa-chart-line me-2"></i>Số NCT cần nhập để đạt 80%
+        </h4>
+        <div>
+          <canvas id="barChartTCKk" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="chart-container">
+        <h4 class="chart-title">
+          <i class="fas fa-percentage me-2"></i>Tỉ lệ hoàn thành mục tiêu 80%
+        </h4>
+        <div>
+          <canvas id="completionRatioChart" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS DỮ LIỆU -->
+  <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
-            Dữ liệu chi tiết 
-        </button>
+      <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
+        <i class="fas fa-table me-2"></i>Dữ liệu chi tiết 
+      </button>
     </li>
-
-<li class="nav-item" role="presentation">
-        <button class="nav-link" id="refusal-tab" data-bs-toggle="tab" data-bs-target="#refusal" type="button" role="tab">
-            Từ chối khám
-        </button>
-    </li>
-
-<li class="nav-item" role="presentation">
-        <button class="nav-link" id="ratioTable-tab" data-bs-toggle="tab" data-bs-target="#ratioTableBody" type="button" role="tab">
-            Số lượng NCT cần nhập để đạt 80%
-        </button>
-    </li>
-	
+    
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="elderly-tab" data-bs-toggle="tab" data-bs-target="#elderly" type="button" role="tab">
-            Dữ liệu NCT > 60 (CS QLHC)
-        </button>
+      <button class="nav-link" id="refusal-tab" data-bs-toggle="tab" data-bs-target="#refusal" type="button" role="tab">
+        <i class="fas fa-ban me-2"></i>Từ chối khám
+      </button>
     </li>
+    
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="ratioTable-tab" data-bs-toggle="tab" data-bs-target="#ratioTableBody" type="button" role="tab">
+        <i class="fas fa-tasks me-2"></i>Tiến độ 80%
+      </button>
+    </li>
+    
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="elderly-tab" data-bs-toggle="tab" data-bs-target="#elderly" type="button" role="tab">
+        <i class="fas fa-users me-2"></i>CS QLHC
+      </button>
+    </li>
+  </ul>
 
-
-</ul>
-
-
-
-
-<div class="tab-content mt-3">
+  <div class="tab-content">
     <!-- Tab 1: Thống Kê Chung -->
-
     <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
-        <div class="container">
-                         <!-- BẢNG DỮ LIỆU -->
-    <div class="table-wrapper">
+      <div class="table-container">
         <div class="table-title">
-            <h4>Dữ liệu chi tiết</h4>
+          <h4><i class="fas fa-clipboard-list me-2"></i>Dữ liệu chi tiết các Trạm Y tế</h4>
         </div>
-
-        <table id="dataTable" class="table table-hover table-striped table-bordered">
-            <thead class="table-dark">
+        <div class="p-0">
+          <div id="tableLoader" class="loader">
+            <div class="loader-spinner"></div>
+          </div>
+          <div id="tableContent" class="table-responsive" style="display: none;">
+            <table id="dataTable" class="table table-hover table-striped table-bordered">
+              <thead class="table-dark">
                 <tr>
-                    <th>STT</th>
-                    <th>Trạm Y tế</th>
-                    <th>NCT được KSK</th>
-                    <th>Xét nghiệm</th>
-                    <th>Siêu Âm</th>
-                    <th>Số NCT nhập liệu</th>
-                    
+                  <th>STT</th>
+                  <th>Trạm Y tế</th>
+                  <th>NCT được KSK</th>
+                  <th>Xét nghiệm</th>
+                  <th>Siêu Âm</th>
+                  <th>Số NCT nhập liệu</th>
                 </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-</div>
-        </div>
-    </div>
-
-<!-- Tab 2: Dữ liệu Người cao tuổi từ chối khám -->
-
-<div class="tab-content mt-3">
-    <!-- Tab Từ chối khám -->
-    <div class="tab-pane fade" id="refusal" role="tabpanel">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <h4>Dữ liệu người từ chối khám</h4>
-            </div>
-            <table id="refusalTable" class="table table-hover table-striped table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>STT</th>
-                        <th>Trạm Y tế</th>
-                        <th>Số lượng NCT 
-đã thu thập thông tin NHƯNG CHƯA đưa lên hệ thống</th>
-                        <th>Số lượng NCT 
-đã thu thập thông tin và đưa lên hệ thống</th>
-                        <th>Từ chối khám do đang điều trị tại bệnh viện
- nên không có nhu cầu</th>
-                        <th>Lý do khác</th>
-                        <th>Cập nhật đến 20/11/24</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
+              </thead>
+              <tbody></tbody>
             </table>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-</div>
 
-<div class="tab-content mt-3">
-    <!-- Tab 3: Dữ liệu Người cao tuổi trên 60 -->
-    <div class="tab-pane fade" id="elderly" role="tabpanel">
-        <div class="dual-table-container">
-    <div class="table-wrapper">
+    <!-- Tab 2: Dữ liệu Người cao tuổi từ chối khám -->
+    <div class="tab-pane fade" id="refusal" role="tabpanel">
+      <div class="table-container">
         <div class="table-title">
-            <h4>Dữ liệu Người cao tuổi trên 60 của phòng CS QLHC về TTXH</h4>
+          <h4><i class="fas fa-user-slash me-2"></i>Dữ liệu người từ chối khám</h4>
         </div>
-        <table id="elderlyResidenceTable" class="table table-hover table-striped table-bordered">
-            <thead class="table-dark">
+        <div class="p-0">
+          <div id="refusalLoader" class="loader">
+            <div class="loader-spinner"></div>
+          </div>
+          <div id="refusalContent" class="table-responsive" style="display: none;">
+            <table id="refusalTable" class="table table-hover table-striped table-bordered">
+              <thead class="table-dark">
                 <tr>
-                    <th>STT</th>
-                    <th>Phường/Xã</th>
-                    <th>Thường trú</th>
-                    <th>Tạm trú</th>
- 			<th>Thực tế đang cư trú chưa đủ điều kiện đăng ký thường trú</th>
-                    <th>Thực tế đang cư trú chưa đủ điều kiện đãng ký tạm trú</th>
-                    <th>Nhân khẩu lưu trú tại thời điểm thống kê</th>
+                  <th>STT</th>
+                  <th>Trạm Y tế</th>
+                  <th>Số lượng NCT chưa đưa lên hệ thống</th>
+                  <th>Số lượng NCT đưa lên hệ thống</th>
+                  <th>Từ chối do đang điều trị BV</th>
+                  <th>Lý do khác</th>
+                  <th>Cập nhật đến</th>
                 </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-   </div>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-</div>
-	 <!-- Bảng tỉ lệ và số lượng NCT cần nhập -->
-<div class="tab-content mt-3">
-<div class="tab-pane fade" id="ratioTableBody" role="tabpanel">
-       <div class="table-wrapper">
-    <div class="table-title">
-        <h4>Tỉ lệ và số lượng NCT cần nhập để đạt 80%</h4>
+
+    <!-- Tab 3: Số lượng NCT cần nhập để đạt 80% -->
+    <div class="tab-pane fade" id="ratioTableBody" role="tabpanel">
+      <div class="table-container">
+        <div class="table-title">
+          <h4><i class="fas fa-percentage me-2"></i>Tỉ lệ và số lượng NCT cần nhập để đạt 80%</h4>
+        </div>
+        <div class="p-0">
+          <div id="ratioLoader" class="loader">
+            <div class="loader-spinner"></div>
+          </div>
+          <div id="ratioContent" class="table-responsive" style="display: none;">
+            <table id="ratioTable" class="table table-hover table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>STT</th>
+                  <th>Trạm Y tế</th>
+                  <th>Tỉ lệ hiện tại</th>
+                  <th>Tiến độ</th>
+                  <th>Số lượng cần nhập thêm</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-    <table id="ratioTable" class="table table-hover table-striped table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>STT</th>
-                <th>Trạm Y tế</th>
-                <th>Tỉ lệ</th>
-                <th>Số lượng NCT cần nhập để đạt 80%</th>
-                <th>Trạm đã đạt 80%</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+
+    <!-- Tab 4: Dữ liệu Người cao tuổi trên 60 -->
+    <div class="tab-pane fade" id="elderly" role="tabpanel">
+      <div class="table-container">
+        <div class="table-title">
+          <h4><i class="fas fa-address-card me-2"></i>Dữ liệu Người cao tuổi trên 60 của phòng CS QLHC về TTXH</h4>
+        </div>
+        <div class="p-0">
+          <div id="elderlyLoader" class="loader">
+            <div class="loader-spinner"></div>
+          </div>
+          <div id="elderlyContent" class="table-responsive" style="display: none;">
+            <table id="elderlyResidenceTable" class="table table-hover table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>STT</th>
+                  <th>Phường/Xã</th>
+                  <th>Thường trú</th>
+                  <th>Tạm trú</th>
+                  <th>Chưa đủ ĐK đăng ký thường trú</th>
+                  <th>Chưa đủ ĐK đăng ký tạm trú</th>
+                  <th>Nhân khẩu lưu trú</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="text-center mt-4 mb-5">
+    <small class="text-muted">Cập nhật lần cuối: <span id="lastUpdated"></span></small>
+  </div>
 </div>
-    </div>   
-</div> 
-</div> 
-
-
-
 
 <script>
+// Cấu hình và định dạng chung
+Chart.register(ChartDataLabels);
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    datalabels: {
+      color: '#fff',
+      font: {
+        weight: 'bold'
+      },
+      formatter: function(value) {
+        if (value === 0) return '';
+        return value;
+      }
+    },
+    legend: {
+      position: 'bottom'
+    },
+    tooltip: {
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      titleFont: {
+        size: 14
+      },
+      bodyFont: {
+        size: 13
+      },
+      padding: 15,
+      cornerRadius: 5,
+      displayColors: true
+    }
+  },
+  animation: {
+    duration: 1000,
+    easing: 'easeOutQuart'
+  }
+};
 
+// Format số với dấu phân cách hàng nghìn
+function formatNumber(num) {
+  if (num === null || num === undefined) return '0';
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
-// Xử lý dữ liệu từ chối khám
-document.addEventListener("DOMContentLoaded", function () {
-fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet2")
-.then(response => response.json())
-.then(data => {
-    const refusalBody = document.querySelector("#refusalTable tbody");
-    const totalRow = data[data.length - 1]; // Lấy dòng tổng
-    
-    data.slice(1, -1).forEach((record, index) => {
+// Cập nhật thời gian
+function updateLastUpdated() {
+  const now = new Date();
+  const options = { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  document.getElementById('lastUpdated').textContent = now.toLocaleDateString('vi-VN', options);
+}
+
+// Hiển thị loader và ẩn nội dung
+function showLoader(loaderId, contentId) {
+  document.getElementById(loaderId).style.display = 'flex';
+  if (contentId) document.getElementById(contentId).style.display = 'none';
+}
+
+// Ẩn loader và hiển thị nội dung
+function hideLoader(loaderId, contentId) {
+  document.getElementById(loaderId).style.display = 'none';
+  if (contentId) document.getElementById(contentId).style.display = 'block';
+}
+
+// Khởi tạo DataTable với cấu hình chung
+function initDataTable(tableId, options = {}) {
+  const defaultOptions = {
+    language: {
+      url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
+    },
+    pageLength: 15,
+    dom: 'Bfrtip',
+    buttons: ['excel', 'csv']
+  };
+  
+  return $(tableId).DataTable({
+    ...defaultOptions,
+    ...options
+  });
+}
+
+// Xử lý lỗi khi tải dữ liệu
+function handleDataLoadError(tableBodyId, error) {
+  console.error("Lỗi khi tải dữ liệu:", error);
+  const errorMsg = `<tr><td colspan="10" class="text-center text-danger">Lỗi khi tải dữ liệu. Vui lòng thử lại sau.</td></tr>`;
+  
+  if (typeof tableBodyId === 'string') {
+    document.querySelector(`${tableBodyId} tbody`).innerHTML = errorMsg;
+  } else if (tableBodyId) {
+    tableBodyId.innerHTML = errorMsg;
+  }
+}
+
+// Hàm khởi tạo biểu đồ
+function initCharts(data) {
+  // Biểu đồ kết hợp
+  const combinedChartCtx = document.getElementById("combinedChart").getContext("2d");
+  new Chart(combinedChartCtx, {
+    type: 'bar',
+    data: { 
+      labels: data.stationNames,
+      datasets: [
+        {
+          label: 'Số NCT đã khám',
+          data: data.nctCounts,
+          backgroundColor: 'rgba(0, 123, 255, 0.7)',
+          borderColor: 'rgba(0, 123, 255, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Xét nghiệm',
+          data: data.examinationCounts,
+          backgroundColor: 'rgba(40, 167, 69, 0.7)',
+          borderColor: 'rgba(40, 167, 69, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Siêu âm',
+          data: data.ultraSoundCounts,
+          backgroundColor: 'rgba(255, 193, 7, 0.7)',
+          borderColor: 'rgba(255, 193, 7, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Đã nhập liệu',
+          data: data.dataCounts,
+          backgroundColor: 'rgba(111, 66, 193, 0.7)',
+          borderColor: 'rgba(111, 66, 193, 1)',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      ...chartOptions,
+      scales: {
+        x: {
+          grid: {
+            display: false
+          }
+        },
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        ...chartOptions.plugins,
+        datalabels: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Biểu đồ số NCT cần nhập để đạt 80%
+  new Chart(document.getElementById("barChartTCKk"), {
+    type: 'bar',
+    data: {
+      labels: data.stationNames,
+      datasets: [{
+        label: 'Số NCT cần nhập để đạt 80%',
+        data: data.nctNeededCounts,
+        backgroundColor: 'rgba(255, 193, 7, 0.7)',
+        borderColor: 'rgba(255, 193, 7, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      ...chartOptions,
+      indexAxis: 'y',
+      scales: {
+        x: {
+          beginAtZero: true
+        },
+        y: {
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+  
+  // Biểu đồ tỉ lệ hoàn thành
+  new Chart(document.getElementById("completionRatioChart"), {
+    type: 'bar',
+    data: {
+      labels: data.stationNames,
+      datasets: [{
+        label: 'Tỉ lệ hoàn thành (%)',
+        data: data.ratios.map(r => r * 100),
+        backgroundColor: data.ratios.map(r => 
+          r >= 0.8 ? 'rgba(40, 167, 69, 0.7)' : 
+          r >= 0.5 ? 'rgba(23, 162, 184, 0.7)' :
+          r >= 0.3 ? 'rgba(255, 193, 7, 0.7)' : 'rgba(220, 53, 69, 0.7)'
+        ),
+        borderColor: data.ratios.map(r => 
+          r >= 0.8 ? 'rgba(40, 167, 69, 1)' : 
+          r >= 0.5 ? 'rgba(23, 162, 184, 1)' :
+          r >= 0.3 ? 'rgba(255, 193, 7, 1)' : 'rgba(220, 53, 69, 1)'
+        ),
+        borderWidth: 1
+      }]
+    },
+    options: {
+      ...chartOptions,
+      scales: {
+        x: {
+          grid: {
+            display: false
+          }
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            callback: function(value) {
+              return value + '%';
+            }
+          }
+        }
+      }
+    }
+  });
+  
+  // Biểu đồ tiến độ dạng pie chart
+  new Chart(document.getElementById("progressChart"), {
+    type: 'doughnut',
+    data: {
+      labels: ['Đã hoàn thành', 'Còn lại'],
+      datasets: [{
+        data: [data.totalRatio * 100, 100 - (data.totalRatio * 100)],
+        backgroundColor: [
+          'rgba(40, 167, 69, 0.7)',
+          'rgba(220, 53, 69, 0.3)'
+        ],
+        borderColor: [
+          'rgba(40, 167, 69, 1)',
+          'rgba(220, 53, 69, 0.5)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '70%',
+      plugins: {
+        legend: {
+          position: 'bottom'
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ' + context.raw.toFixed(1) + '%';
+            }
+          }
+        },
+        datalabels: {
+          color: '#fff',
+          font: {
+            weight: 'bold',
+            size: 16
+          },
+          formatter: function(value, context) {
+            return value.toFixed(1) + '%';
+          }
+        }
+      }
+    }
+  });
+}
+
+// Hàm chính khi DOM đã sẵn sàng
+document.addEventListener("DOMContentLoaded", function() {
+  updateLastUpdated();
+  
+  // Hiển thị các loader
+  showLoader('tableLoader', 'tableContent');
+  showLoader('refusalLoader', 'refusalContent');
+  showLoader('ratioLoader', 'ratioContent');
+  showLoader('elderlyLoader', 'elderlyContent');
+  
+  // Xử lý dữ liệu từ chối khám
+  fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet2")
+    .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    })
+    .then(data => {
+      const refusalBody = document.querySelector("#refusalTable tbody");
+      const totalRow = data[data.length - 1]; // Lấy dòng tổng
+      
+      // Xóa nội dung cũ nếu có
+      refusalBody.innerHTML = '';
+      
+      // Thêm dữ liệu vào bảng
+      data.slice(1, -1).forEach((record, index) => {
         refusalBody.innerHTML += `
-            <tr>
-                <td>${record[0]}</td>
-                <td>${record[1]}</td>
-                <td>${record[2] || 0}</td>
-                <td>${record[3] || 0}</td>
-                <td>${record[4] || 0}</td>
-                <td>${record[5] || 0}</td>
-                <td>${record[6] || ''}</td>
-            </tr>`;
-    });
+          <tr>
+            <td>${record[0] || '-'}</td>
+            <td>${record[1] || '-'}</td>
+            <td>${record[2] ? formatNumber(record[2]) : '0'}</td>
+            <td>${record[3] ? formatNumber(record[3]) : '0'}</td>
+            <td>${record[4] ? formatNumber(record[4]) : '0'}</td>
+            <td>${record[5] ? formatNumber(record[5]) : '0'}</td>
+            <td>${record[6] || '20/11/2024'}</td>
+          </tr>`;
+      });
 
-    // Thêm dòng tổng
-    refusalBody.innerHTML += `
+      // Thêm dòng tổng
+      refusalBody.innerHTML += `
         <tr class="table-warning fw-bold">
-            <td>${totalRow[0]}</td>
-            <td>${totalRow[1]}</td>
-            <td>${totalRow[2]}</td>
-            <td>${totalRow[3]}</td>
-            <td>${totalRow[4]}</td>
-            <td>${totalRow[5]}</td>
-            <td></td>
+          <td>${totalRow[0] || 'Tổng'}</td>
+          <td>${totalRow[1] || 'Tổng cộng'}</td>
+          <td>${totalRow[2] ? formatNumber(totalRow[2]) : '0'}</td>
+          <td>${totalRow[3] ? formatNumber(totalRow[3]) : '0'}</td>
+          <td>${totalRow[4] ? formatNumber(totalRow[4]) : '0'}</td>
+          <td>${totalRow[5] ? formatNumber(totalRow[5]) : '0'}</td>
+          <td></td>
         </tr>`;
-});
+        
+      // Ẩn loader và hiển thị bảng
+      hideLoader('refusalLoader', 'refusalContent');
+      
+      // Khởi tạo DataTable
+      initDataTable('#refusalTable');
+    })
+    .catch(error => {
+      handleDataLoadError('#refusalTable', error);
+      hideLoader('refusalLoader', 'refusalContent');
     });
+    
+  // Xử lý dữ liệu thống kê chính
+  fetch("https://script.googleusercontent.com/macros/echo?user_content_key=eWD9KDnoFACahaW37G16bmFrCNKubuDcPz6Ws3H1sz6-Yl6RYnGTli7mYx6wbHMPy-0pg99qppOB_vj_TIs8PotaUaeNcOq9OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa87hqr123fmx248BvLJ7Hr7YIR2MrOF6pYTlLPL3tKV3DQtNRxv7PqP_tcfr-KtoyB3iShl8E-3bRu1f4xb2ilvc8wwECQEug_ekoa_Y_UXNtG9SgAd80OdDO9C39X8Jng&lib=MYisXarkTAGcJyijFr0C8MiooXnPnd0iI")
+    .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    })
+    .then(data => {
+      const records = data.slice(1, -1);
+      const totalRow = data[data.length - 1];
+      let tableBody = document.querySelector("#dataTable tbody");
+      let totalNCT = 0, maxNCT = 0, minNCT = Infinity;
+      let totalNCTtck = parseInt(totalRow[5]) || 0;
+      let largestStation = "", smallestStation = "";
+      let stationNames = [], nctCounts = [], examinationCounts = [], ultraSoundCounts = [], dataCounts = [];
+      
+      // Xóa nội dung cũ nếu có
+      tableBody.innerHTML = '';
+      
+      records.forEach(record => {
+        let nct = parseInt(record[2]) || 0;
+        let examination = parseInt(record[3]) || 0;
+        let ultraSound = parseInt(record[4]) || 0;
+        let dataEntry = parseInt(record[5]) || 0;
+        
+        totalNCT += nct;
+        stationNames.push(record[1]);
+        nctCounts.push(nct);
+        examinationCounts.push(examination);
+        ultraSoundCounts.push(ultraSound);
+        dataCounts.push(dataEntry);
+        
+        if (nct > maxNCT) { 
+          maxNCT = nct; 
+          largestStation = record[1]; 
+        }
+        if (nct < minNCT && nct > 0) { 
+          minNCT = nct; 
+          smallestStation = record[1]; 
+        }
 
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet3")
-            .then(response => response.json())
-            .then(data => {
-                const records = data.slice(1);
-                const residenceBody = document.querySelector("#elderlyResidenceTable tbody");
-                const registrationBody = document.querySelector("#elderlyRegistrationTable tbody");
-
-                records.forEach(record => {
-                    // Bảng Cư trú
-                    residenceBody.innerHTML += `
-                        <tr>
-                            <td>${record[0]}</td>
-                            <td>${record[1]}</td>
-                            <td>${record[2]}</td>
-                            <td>${record[3]}</td>
-                            <td>${record[4]}</td>
-                            <td>${record[5]}</td>
-                            <td>${record[6]}</td>
-                        </tr>`;
-                });
-            });
-    });
-
-
-
-            // Hiển thị các thông tin tổng
-
-         
-
-  document.addEventListener("DOMContentLoaded", function () {
-        fetch("https://script.googleusercontent.com/macros/echo?user_content_key=eWD9KDnoFACahaW37G16bmFrCNKubuDcPz6Ws3H1sz6-Yl6RYnGTli7mYx6wbHMPy-0pg99qppOB_vj_TIs8PotaUaeNcOq9OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa87hqr123fmx248BvLJ7Hr7YIR2MrOF6pYTlLPL3tKV3DQtNRxv7PqP_tcfr-KtoyB3iShl8E-3bRu1f4xb2ilvc8wwECQEug_ekoa_Y_UXNtG9SgAd80OdDO9C39X8Jng&lib=MYisXarkTAGcJyijFr0C8MiooXnPnd0iI")
-           
-        .then(response => response.json())
+        // Thêm hàng vào bảng
+        tableBody.innerHTML += `
+          <tr>
+            <td>${record[0] || '-'}</td>
+            <td>${record[1] || '-'}</td>
+            <td>${nct ? formatNumber(nct) : '0'}</td>
+            <td>${examination ? formatNumber(examination) : '0'}</td>
+            <td>${ultraSound ? formatNumber(ultraSound) : '0'}</td>
+            <td>${dataEntry ? formatNumber(dataEntry) : '0'}</td>
+          </tr>`;
+      });
+      
+      // Thêm dòng tổng
+      tableBody.innerHTML += `
+        <tr class="table-warning fw-bold">
+          <td>${totalRow[0] || 'Tổng'}</td>
+          <td>${totalRow[1] || 'Tổng cộng'}</td>
+          <td>${formatNumber(totalNCT)}</td>
+          <td>${formatNumber(examinationCounts.reduce((a, b) => a + b, 0))}</td>
+          <td>${formatNumber(ultraSoundCounts.reduce((a, b) => a + b, 0))}</td>
+          <td>${formatNumber(dataCounts.reduce((a, b) => a + b, 0))}</td>
+        </tr>`;
+      
+      // Hiển thị thông tin tổng quan
+      document.getElementById("totalNCT").textContent = formatNumber(totalNCT);
+      document.getElementById("largestStation").textContent = `${largestStation} (${formatNumber(maxNCT)})`;
+      document.getElementById("smallestStation").textContent = `${smallestStation} (${formatNumber(minNCT)})`;
+      document.getElementById("totalNCTtck").textContent = formatNumber(totalNCTtck);
+      
+      // Ẩn loader và hiển thị bảng
+      hideLoader('tableLoader', 'tableContent');
+      
+      // Khởi tạo DataTable
+      initDataTable('#dataTable');
+      
+      // Trả về dữ liệu để sử dụng cho các biểu đồ khác
+      return {
+        stationNames,
+        nctCounts,
+        examinationCounts,
+        ultraSoundCounts,
+        dataCounts
+      };
+    })
+    .then(chartData => {
+      // Xử lý dữ liệu phân tích tỉ lệ
+      return fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=PhanTich")
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
         .then(data => {
-            const records = data.slice(1, -1);
-            let tableBody = document.querySelector("#dataTable tbody");
-            let totalNCT = 0, maxNCT = 0, minNCT = Infinity;
-            let totalNCTtck = data[data.length - 1][5];
-            let largestStation = "", smallestStation = "";
-            let stationNames = [], nctCounts = [];
-	
-            // Sửa lại phần lấy dữ liệu từ chối khám
-            let ncttckCounts = records.map(record => parseInt(record[5]) || 0);
+          const records = data.slice(1, -1);
+          const totalRow = data[data.length - 1];
+          const ratioTableBody = document.querySelector("#ratioTable tbody");
+          let totalNCT = 0;
+          let totalNCTNeeded = 0;
+          let nctNeededCounts = [];
+          let ratios = [];
+          let totalRatio = parseFloat(totalRow[4]) || 0;
 
-            records.forEach(record => {
-                let nct = parseInt(record[2]) || 0;
-		let ncttck = parseInt(record[5]) || 0;
-                totalNCT += nct;
-                stationNames.push(record[1]);
-                nctCounts.push(nct);
-		
-                if (nct > maxNCT) { maxNCT = nct; largestStation = record[1]; }
-                if (nct < minNCT) { minNCT = nct; smallestStation = record[1]; }
+          // Xóa nội dung cũ nếu có
+          ratioTableBody.innerHTML = '';
 
-                    let row = `<tr>
-                        <td>${record[0]}</td>
-                        <td>${record[1]}</td>
-                        <td>${record[2]}</td>
-                        <td>${record[3]}</td>
-                        <td>${record[4]}</td>
-                        <td>${record[5]}</td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
-                });
+          records.forEach(record => {
+            const stationName = record[1];
+            const nctCollected = parseInt(record[2]) || 0;
+            const nctTotal = parseInt(record[3]) || 0;
+            const ratio = parseFloat(record[4]) || 0;
+            const nctNeeded = parseFloat(record[5]) || 0;
+            const status = record[6];
 
-                 document.getElementById("totalNCT").textContent = totalNCT;
-            document.getElementById("largestStation").textContent = largestStation;
-            document.getElementById("smallestStation").textContent = smallestStation;
-            document.getElementById("totalNCTtck").textContent = totalNCTtck;
+            totalNCT += nctCollected;
+            totalNCTNeeded += nctNeeded;
+            nctNeededCounts.push(nctNeeded);
+            ratios.push(ratio);
 
-                 // Biểu đồ 1: Số NCT
-            new Chart(document.getElementById("barChartNCT"), {
-                type: 'bar',
-                data: { 
-                    labels: stationNames,
-                    datasets: [{
-                        label: 'Số NCT đã khám',
-                        data: nctCounts,
-                        backgroundColor: '#007bff'
-                    }]
-                },
-                options: { 
-                    animation: { 
-                        duration: 1500, 
-                        easing: 'easeOutBounce' 
-                    } 
-                }
-            });
+            // Hiển thị tiến độ dạng progress bar
+            const percentComplete = ratio * 100;
+            const progressColor = percentComplete >= 80 ? 'bg-success' : 
+                                percentComplete >= 50 ? 'bg-info' : 
+                                percentComplete >= 30 ? 'bg-warning' : 'bg-danger';
+            
+            const statusBadge = status === 'Đạt' ? 
+              '<span class="badge bg-success">Đạt</span>' : 
+              '<span class="badge bg-warning">Chưa đạt</span>';
 
-            // Biểu đồ 2: Số NCT từ chối khám (Sửa ID và dữ liệu)
-            new Chart(document.getElementById("barChartTCK"), {
-                type: 'bar',
-                data: { 
-                    labels: stationNames,
-                    datasets: [{
-                        label: 'Số NCT từ chối khám',
-                        data: ncttckCounts,
-                        backgroundColor: '#dc3545' // Màu đỏ để phân biệt
-                    }]
-                },
-                options: { 
-                    animation: { 
-                        duration: 1500, 
-                        easing: 'easeOutBounce' 
-                    } 
-                }
-            });
-        });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=PhanTich")
-        .then(response => response.json())
-        .then(data => {
-            const records = data.slice(1, -1); // Bỏ qua hàng đầu tiên (tiêu đề) và hàng cuối cùng (tổng cộng)
-            const totalRow = data[data.length - 1]; // Lấy hàng tổng cộng
-
-            // Tính toán các giá trị cần thiết
-            let totalNCT = 0;
-            let totalNCTNeeded = 0;
-            let stationNames = [];
-            let nctCounts = [];
-            let nctNeededCounts = [];
-            let ratios = [];
-
-            records.forEach(record => {
-                const stationName = record[1];
-                const nctCollected = parseInt(record[2]) || 0;
-                const nctTotal = parseInt(record[3]) || 0;
-                const ratio = parseFloat(record[4]) || 0;
-                const nctNeeded = parseFloat(record[5]) || 0;
-
-                totalNCT += nctCollected;
-                totalNCTNeeded += nctNeeded;
-
-                stationNames.push(stationName);
-                nctCounts.push(nctCollected);
-                nctNeededCounts.push(nctNeeded);
-                ratios.push(ratio);
-            });
-
-            // Hiển thị các giá trị lên dashboard
-            document.getElementById("totalNCT").textContent = totalNCT.toLocaleString();
-            document.getElementById("totalNCTNeeded").textContent = totalNCTNeeded.toLocaleString();
-
-            // Tìm trạm có số lượng NCT khám ít nhất
-            let minNCT = Math.min(...nctCounts);
-            let minStationIndex = nctCounts.indexOf(minNCT);
-            let minStationName = stationNames[minStationIndex];
-            document.getElementById("smallestStation").textContent = `${minStationName} (${minNCT.toLocaleString()})`;
-
-            // Hiển thị tỉ lệ và số lượng NCT cần nhập để đạt 80%
-            const ratioTableBody = document.querySelector("#ratioTable tbody");
-            records.forEach((record, index) => {
-                ratioTableBody.innerHTML += `
-                    <tr>
-                        <td>${record[0]}</td>
-                        <td>${record[1]}</td>
-                        <td>${(ratios[index] * 100).toFixed(2)}%</td>
-                        <td>${nctNeededCounts[index].toLocaleString()}</td>
-                        <td>${record[6]}</td>
-                    </tr>`;
-            });
-
-            // Thêm dòng tổng cộng
             ratioTableBody.innerHTML += `
-                <tr class="table-warning fw-bold">
-                    <td>${totalRow[0]}</td>
-                    <td>${totalRow[1]}</td>
-                    <td>${(parseFloat(totalRow[4]) * 100).toFixed(2)}%</td>
-                    <td>${totalNCTNeeded.toLocaleString()}</td>
-                    <td>${totalRow[6]}</td>
-                </tr>`;
+              <tr>
+                <td>${record[0]}</td>
+                <td>${stationName}</td>
+                <td>${(ratio * 100).toFixed(2)}%</td>
+                <td>
+                  <div class="progress">
+                    <div class="progress-bar ${progressColor}" role="progressbar" style="width: ${percentComplete}%" 
+                      aria-valuenow="${percentComplete}" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </td>
+                <td>${nctNeeded > 0 ? formatNumber(nctNeeded) : 0}</td>
+                <td>${statusBadge}</td>
+              </tr>`;
+          });
 
+          // Thêm dòng tổng cộng
+          const totalProgressColor = totalRatio * 100 >= 80 ? 'bg-success' : 
+                                   totalRatio * 100 >= 50 ? 'bg-info' : 
+                                   totalRatio * 100 >= 30 ? 'bg-warning' : 'bg-danger';
           
+          ratioTableBody.innerHTML += `
+            <tr class="table-warning fw-bold">
+              <td>${totalRow[0]}</td>
+              <td>${totalRow[1]}</td>
+              <td>${(totalRatio * 100).toFixed(2)}%</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar ${totalProgressColor}" role="progressbar" style="width: ${totalRatio * 100}%" 
+                    aria-valuenow="${totalRatio * 100}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </td>
+              <td>${formatNumber(totalNCTNeeded)}</td>
+              <td>${totalRatio >= 0.8 ? '<span class="badge bg-success">Đạt</span>' : '<span class="badge bg-warning">Chưa đạt</span>'}</td>
+            </tr>`;
 
-            new Chart(document.getElementById("barChartTCKk"), {
-                type: 'bar',
-                data: {
-                    labels: stationNames,
-                    datasets: [{
-                        label: 'Số NCT cần nhập để đạt 80%',
-                        data: nctNeededCounts,
-                        backgroundColor: '#f5e214'
-                    }]
-                },
-                options: {
-                    animation: {
-                        duration: 1500,
-                        easing: 'easeOutBounce'
-                    }
-                }
-            });
+          // Hiển thị tổng NCT cần nhập để đạt 80%
+          document.getElementById("totalNCTNeeded").textContent = formatNumber(totalNCTNeeded);
+          
+          // Cập nhật tiến độ tổng thể
+          const totalPercent = (totalRatio * 100).toFixed(1);
+          document.getElementById("totalNCTPercent").innerHTML = `<span class="badge bg-${totalProgressColor}">${totalPercent}%</span>`;
+          
+          // Ẩn loader và hiển thị bảng
+          hideLoader('ratioLoader', 'ratioContent');
+          
+          // Khởi tạo DataTable
+          initDataTable('#ratioTable');
+          
+          // Thêm dữ liệu vào object chartData
+          return {
+            ...chartData,
+            nctNeededCounts,
+            ratios,
+            totalRatio
+          };
         });
+    })
+    .then(chartData => {
+      // Khởi tạo tất cả biểu đồ
+      initCharts(chartData);
+      
+      // Xử lý dữ liệu người cao tuổi
+      return fetch("https://script.google.com/macros/s/AKfycbyHsODnk3vgKJbJqGvHaBUo51_OkvqO1dsvSqGBIB0ZCeGOrtf9EI4XRNg6470GYiENRQ/exec?sheetName=Sheet3")
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        });
+    })
+    .then(data => {
+      const records = data.slice(1);
+      const residenceBody = document.querySelector("#elderlyResidenceTable tbody");
+
+      // Xóa nội dung cũ nếu có
+      residenceBody.innerHTML = '';
+
+      records.forEach(record => {
+        // Bảng Cư trú
+        residenceBody.innerHTML += `
+          <tr>
+            <td>${record[0] || '-'}</td>
+            <td>${record[1] || '-'}</td>
+            <td>${record[2] ? formatNumber(record[2]) : '0'}</td>
+            <td>${record[3] ? formatNumber(record[3]) : '0'}</td>
+            <td>${record[4] ? formatNumber(record[4]) : '0'}</td>
+            <td>${record[5] ? formatNumber(record[5]) : '0'}</td>
+            <td>${record[6] ? formatNumber(record[6]) : '0'}</td>
+          </tr>`;
+      });
+      
+      // Ẩn loader và hiển thị bảng
+      hideLoader('elderlyLoader', 'elderlyContent');
+      
+      // Khởi tạo DataTable cho bảng CS QLHC
+      initDataTable('#elderlyResidenceTable');
+    })
+    .catch(error => {
+      console.error("Lỗi trong quá trình tải dữ liệu:", error);
+      handleDataLoadError('#dataTable', error);
+      handleDataLoadError('#ratioTable', error);
+      handleDataLoadError('#elderlyResidenceTable', error);
+      
+      hideLoader('tableLoader', 'tableContent');
+      hideLoader('ratioLoader', 'ratioContent');
+      hideLoader('elderlyLoader', 'elderlyContent');
+    });
 });
 </script>
-
-</body>
-</html>
